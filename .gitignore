@@ -1,5 +1,2 @@
-# composer vendor dir   
-/vendor
-
-# composer vendor dir   
-vendor/
+# vendor folder
+vendor
