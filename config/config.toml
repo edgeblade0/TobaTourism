@@ -1,2 +1,2 @@
 [database]
-    conn = "host=localhost port=5432 user=jsthutagaol password=jsth12345 dbname=toba-tourism sslmode=disable"
+    conn = "host=localhost port=5432 user=toba password=hutabarat123 dbname=toba sslmode=disable"

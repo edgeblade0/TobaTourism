@@ -17,6 +17,7 @@ func InitPariwisataHandler(e *echo.Echo, p pariwisataUsecase.Usecase) {
 
 	//register handler
 	e.GET("/pariwisata", handler.GetAllPariwisata)
+	e.POST("/create", handler.CreatePariwisata)
 }
 
 // ResponseError represent the reseponse error struct

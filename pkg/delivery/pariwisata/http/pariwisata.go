@@ -22,3 +22,27 @@ func (d *pariwisata) GetAllPariwisata(c echo.Context) error {
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, allPariwisata)
 }
+
+//for Insert wisata
+func (d *pariwisata) CreatePariwisata(c echo.Context) error {
+
+	// pName := c.QueryParam("name")
+	// pLokasi := c.QueryParam("lokasi")
+
+	pName := c.FormValue("name")
+	pLokasi := c.FormValue("lokasi")
+
+	ctx := c.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	err := d.pariwisataUsecase.CreatePariwisata(pName, pLokasi)
+	if err != nil {
+		log.Println(err)
+	}
+
+	c.Response().Header().Set(`X-Cursor`, "header")
+	return c.JSON(http.StatusOK, err)
+
+}

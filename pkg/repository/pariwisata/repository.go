@@ -6,4 +6,5 @@ import (
 
 type Repository interface {
 	GetAllPariwisata() ([]models.Pariwisata, error)
+	CreatePariwisata(pariwisataName, pariwisataLokasi string) error
 }
