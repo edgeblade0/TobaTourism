@@ -1,3 +1,3 @@
 package postgres
 
-var queryGetAllExperience = "SELECT id, description, lokasi FROM experience"
+var QueryGetAllExperience = "SELECT id, description, lokasi FROM experience"

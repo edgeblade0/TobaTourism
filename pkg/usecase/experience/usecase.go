@@ -6,5 +6,5 @@ import (
 
 // Usecase interface
 type Usecase interface {
-	GetAllExperience() ([]models.Experience, error)
+	GetAllExperience() (models.Response, error)
 }

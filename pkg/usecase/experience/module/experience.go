@@ -6,12 +6,13 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (u *experience) GetAllExperience() ([]models.Experience, error) {
+func (u *experience) GetAllExperience() (models.Response, error) {
 	allExperience, err := u.experienceRepo.GetAllExperience()
 	if err != nil {
-		log.Println(err)
+		log.Println("[Usecase][Experience][GetAllExperience] Error: ", err)
+
 		return allExperience, err
 	}
 
-	return allExperience, err
+	return allExperience, nil
 }

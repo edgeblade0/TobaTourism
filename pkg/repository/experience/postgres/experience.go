@@ -6,24 +6,48 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (r *experience) GetAllExperience() ([]models.Experience, error) {
-	allExperience := []models.Experience{}
+const (
+	MessageSuccess = "Berhasil"
+	MessageFailed  = "Gagal"
 
-	rows, err := r.DB.Query(queryGetAllExperience)
+	StatusOK     = "OK"
+	StatusFailed = "Failed"
+)
+
+func (r *experience) GetAllExperience() (models.Response, error) {
+	allExperience := []models.Experience{}
+	var resp models.Response
+
+	rows, err := r.DB.Query(QueryGetAllExperience)
 	if err != nil {
-		log.Println("Repository error: ", err)
-		return allExperience, err
+		log.Println("[Repository][Experience][GetAllExperience] Query error: ", err)
+
+		resp.Data = allExperience
+		resp.Message = MessageFailed
+		resp.Status = StatusFailed
+
+		return resp, err
 	}
 
 	for rows.Next() {
 		experience := models.Experience{}
 		err := rows.Scan(&experience.ID, &experience.Description, &experience.Lokasi)
 		if err != nil {
-			log.Println(err)
+			log.Println("[Repository][Experience][GetAllExperience] Scan error: ", err)
+
+			resp.Data = allExperience
+			resp.Message = MessageFailed
+			resp.Status = StatusFailed
+
+			return resp, err
 		}
 
 		allExperience = append(allExperience, experience)
 	}
 
-	return allExperience, nil
+	resp.Data = allExperience
+	resp.Message = MessageSuccess
+	resp.Status = StatusOK
+
+	return resp, nil
 }
