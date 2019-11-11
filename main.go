@@ -15,6 +15,10 @@ import (
 	"github.com/TobaTourism/pkg/models"
 	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
 	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
+
+	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
+	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
+	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
 )
 
 var Conf *models.Config
@@ -41,15 +45,18 @@ func main() {
 
 	fmt.Println("Successfully connected!")
 
-	//Konten Pariwisata
-	pariwisata(e, db)
+	// Start all services
+	startService(e, db)
 
 	log.Fatal(e.Start(":9090"))
 }
 
-func pariwisata(e *echo.Echo, db *sql.DB) {
+func startService(e *echo.Echo, db *sql.DB) {
 	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
 	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo)
 	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase)
 
+	experienceRepo := experienceRepo.InitExperienceRepo(db)
+	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
+	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
 }
