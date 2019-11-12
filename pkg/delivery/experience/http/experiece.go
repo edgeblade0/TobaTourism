@@ -16,10 +16,12 @@ func (d *experience) GetAllExperience(c echo.Context) error {
 
 	allExperience, err := d.experienceUsecase.GetAllExperience()
 	if err != nil {
-		log.Println(err)
+		log.Println("[Delivery][Experience][GetAllExperience] Error: ", err)
+
+		return c.JSON(http.StatusInternalServerError, allExperience)
 	}
 
-	c.Response().Header().Set(`X-Cursor`, "header")
+	c.Response().Header().Set("Content-Type", "application/json")
 
 	return c.JSON(http.StatusOK, allExperience)
 }

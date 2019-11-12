@@ -16,5 +16,5 @@ func InitExperienceHandler(e *echo.Echo, p experienceUsecase.Usecase) {
 		experienceUsecase: p,
 	}
 
-	e.GET("/experience", handler.GetAllExperience)
+	e.GET("api/experience/getAll", handler.GetAllExperience)
 }

@@ -5,5 +5,5 @@ import (
 )
 
 type Repository interface {
-	GetAllExperience() ([]models.Experience, error)
+	GetAllExperience() (models.Response, error)
 }
