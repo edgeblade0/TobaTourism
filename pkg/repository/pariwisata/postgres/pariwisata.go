@@ -6,48 +6,51 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (r *pariwisata) GetAllPariwisata() ([]models.Pariwisata, error) {
-	allPariwisata := []models.Pariwisata{}
+const (
+	MessageSucces = "Berhasil"
+	Messagefailed = "Gagal"
 
-	rows, err := r.DB.Query(queryGetAllPariwisata)
+	StatusOk     = "Ok"
+	StatusFailed = "Gagal"
+)
+
+func (r *pariwisata) GetAllPariwisata() (models.Respone, error) {
+	allPariwisata := []models.Pariwisata{}
+	var resp models.Respone
+
+	rows, err := r.DB.Query(QueryGetAllPariwisata)
 	if err != nil {
-		log.Println("Repository error : ", err)
-		return allPariwisata, err
+		log.Println("[Repository][Experience][GetAllPariwisata] Query Error: ", err)
+
+		resp.Data = allPariwisata
+		resp.Message = Messagefailed
+		resp.Status = StatusFailed
+
+		return resp, err
 	}
 
 	for rows.Next() {
 		pariwisata := models.Pariwisata{}
 		err := rows.Scan(&pariwisata.ID, &pariwisata.Name, &pariwisata.Lokasi)
 		if err != nil {
-			log.Println(err)
+			log.Println("[Repository][Pariwisata][GetAllPariwisata] Scan Error : ", err)
+
+			resp.Data = allPariwisata
+			resp.Message = Messagefailed
+			resp.Status = StatusFailed
+
+			return resp, err
 		}
+
 		allPariwisata = append(allPariwisata, pariwisata)
 	}
 
-	return allPariwisata, nil
+	resp.Data = allPariwisata
+	resp.Message = MessageSucces
+	resp.Status = StatusOk
+
+	return resp, nil
 }
-
-//for the insert
-// func (r *pariwisata) CreatePariwisata() ([]models.Pariwisata, error) {
-// 	allPariwisata := []models.Pariwisata{}
-
-// 	rows, err := r.DB.Query(queryCreatePariwisata)
-// 	// if err != nil {
-// 	// 	log.Println("Repository error : ", err)
-// 	// 	return allPariwisata, err
-// 	// }
-
-// 	// for rows.Next() {
-// 	// 	pariwisata := models.Pariwisata{}
-// 	// 	err := rows.Scan(&pariwisata.ID, &pariwisata.Name, &pariwisata.Lokasi)
-// 	// 	if err != nil {
-// 	// 		log.Println(err)
-// 	// 	}
-// 	// 	allPariwisata = append(allPariwisata, pariwisata)
-// 	// }
-
-// 	// return allPariwisata, nil
-// }
 
 func (r *pariwisata) CreatePariwisata(pariwisataName string, pariwisataLokasi string) error {
 

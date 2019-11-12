@@ -16,7 +16,7 @@ func InitPariwisataHandler(e *echo.Echo, p pariwisataUsecase.Usecase) {
 	}
 
 	//register handler
-	e.GET("/pariwisata", handler.GetAllPariwisata)
+	e.GET("api/pariwisata/getAll", handler.GetAllPariwisata)
 	e.POST("/create", handler.CreatePariwisata)
 }
 

@@ -3,16 +3,20 @@ package module
 import (
 
 	// "log"
+	"log"
+
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (u *pariwisata) GetAllPariwisata() ([]models.Pariwisata, error) {
+func (u *pariwisata) GetAllPariwisata() (models.Respone, error) {
 	allPariwisata, err := u.pariwisataRepo.GetAllPariwisata()
-	// if err != nil {
-	// 	log.Println(err)
-	// }
+	if err != nil {
+		log.Println("[Usecase][Pariwisata][GetAllPariwisata] Error : ", err)
 
-	return allPariwisata, err
+		return allPariwisata, err
+	}
+
+	return allPariwisata, nil
 }
 
 //for the insert

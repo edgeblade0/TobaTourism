@@ -16,10 +16,12 @@ func (d *pariwisata) GetAllPariwisata(c echo.Context) error {
 
 	allPariwisata, err := d.pariwisataUsecase.GetAllPariwisata()
 	if err != nil {
-		log.Println(err)
+		log.Println("[Delivery][Pariwisata][GetAllPariwisata] Error : ", err)
+
+		return c.JSON(http.StatusInternalServerError, allPariwisata)
 	}
 
-	c.Response().Header().Set(`X-Cursor`, "header")
+	c.Response().Header().Set(`Content-Type`, "application/json")
 	return c.JSON(http.StatusOK, allPariwisata)
 }
 
