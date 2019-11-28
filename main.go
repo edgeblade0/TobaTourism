@@ -19,6 +19,10 @@ import (
 	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
 	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
 	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
+
+	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
+	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
+	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
 )
 
 var Conf *models.Config
@@ -59,4 +63,8 @@ func startService(e *echo.Echo, db *sql.DB) {
 	experienceRepo := experienceRepo.InitExperienceRepo(db)
 	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
 	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
+
+	transportasiRepo := transportasiRepo.InitTransportasiRepo(db)
+	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo)
+	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase)
 }
