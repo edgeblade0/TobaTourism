@@ -15,6 +15,14 @@ import (
 	"github.com/TobaTourism/pkg/models"
 	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
 	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
+
+	restoDeliver "github.com/TobaTourism/pkg/delivery/resto/http"
+	restoRepo "github.com/TobaTourism/pkg/repository/resto/postgres"
+	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
+
+	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
+	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
+	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
 )
 
 var Conf *models.Config
@@ -44,6 +52,9 @@ func main() {
 	//Konten Pariwisata
 	pariwisata(e, db)
 
+	restoran(e, db)
+	attachment(e, db)
+
 	log.Fatal(e.Start(":9090"))
 }
 
@@ -52,4 +63,18 @@ func pariwisata(e *echo.Echo, db *sql.DB) {
 	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo)
 	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase)
 
+}
+
+func restoran(e *echo.Echo, db *sql.DB) {
+	restoRepo := restoRepo.InitRestoRepo(db)
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+	restoDeliver.InitRestoHandler(e, restoUsecase, attachmentUseCase)
+}
+
+func attachment(e *echo.Echo, db *sql.DB) {
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+	attachmentDeliver.InitAttachmentHandler(e, attachmentUseCase)
 }
