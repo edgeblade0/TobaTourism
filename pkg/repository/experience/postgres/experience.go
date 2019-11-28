@@ -7,16 +7,16 @@ import (
 )
 
 const (
-	MessageSuccess = "Berhasil"
-	MessageFailed  = "Gagal"
+	MessageSuccess = "Success"
+	MessageFailed  = "Failed"
 
-	StatusOK     = "OK"
-	StatusFailed = "Failed"
+	StatusOK     = "200"
+	StatusFailed = "500"
 )
 
-func (r *experience) GetAllExperience() (models.Response, error) {
+func (r *experience) GetAllExperience() (models.ExperienceResponse, error) {
 	allExperience := []models.Experience{}
-	var resp models.Response
+	var resp models.ExperienceResponse
 
 	statement, err := r.DB.Prepare(QueryGetAllExperience)
 	if err != nil {
@@ -65,9 +65,9 @@ func (r *experience) GetAllExperience() (models.Response, error) {
 	return resp, nil
 }
 
-func (r *experience) GetExperienceByID(experienceID int64) (models.Response, error) {
+func (r *experience) GetExperienceByID(experienceID int64) (models.ExperienceResponse, error) {
 	experiences := []models.Experience{}
-	var resp models.Response
+	var resp models.ExperienceResponse
 
 	statement, err := r.DB.Prepare(QueryGetExperienceByID)
 	if err != nil {
@@ -114,8 +114,8 @@ func (r *experience) GetExperienceByID(experienceID int64) (models.Response, err
 	return resp, nil
 }
 
-func (r *experience) CreateExperience(description, lokasi string) (models.Response, error) {
-	var resp models.Response
+func (r *experience) CreateExperience(description, lokasi string) (models.ExperienceResponse, error) {
+	var resp models.ExperienceResponse
 
 	statement, err := r.DB.Prepare(QueryCreateExperience)
 	if err != nil {
@@ -145,8 +145,8 @@ func (r *experience) CreateExperience(description, lokasi string) (models.Respon
 	return resp, nil
 }
 
-func (r *experience) UpdateExperience(experienceID int64, description, lokasi string) (models.Response, error) {
-	var resp models.Response
+func (r *experience) UpdateExperience(experienceID int64, description, lokasi string) (models.ExperienceResponse, error) {
+	var resp models.ExperienceResponse
 
 	statement, err := r.DB.Prepare(QueryUpdateExperience)
 	if err != nil {
@@ -176,8 +176,8 @@ func (r *experience) UpdateExperience(experienceID int64, description, lokasi st
 	return resp, nil
 }
 
-func (r *experience) DeleteExperience(experienceID int64) (models.Response, error) {
-	var resp models.Response
+func (r *experience) DeleteExperience(experienceID int64) (models.ExperienceResponse, error) {
+	var resp models.ExperienceResponse
 
 	statement, err := r.DB.Prepare(QueryDeleteExperience)
 	if err != nil {

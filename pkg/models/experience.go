@@ -7,7 +7,7 @@ type Experience struct {
 	Lokasi      string `json:"lokasi"`
 }
 
-type Response struct {
+type ExperienceResponse struct {
 	Data    []Experience `json:"data"`
 	Message string       `json:"message"`
 	Status  string       `json:"status"`
