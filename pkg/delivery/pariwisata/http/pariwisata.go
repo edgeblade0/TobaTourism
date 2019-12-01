@@ -17,23 +17,38 @@ func (d *pariwisata) GetAllPariwisata(c echo.Context) error {
 
 	allPariwisata, err := d.pariwisataUsecase.GetAllPariwisata()
 	if err != nil {
-		log.Println("[Delivery][Pariwisata][GetAllPariwisata] Error : ", err)
+		log.Println("[Delivery][Pariwisata][GetAllPariwisata] Error: ", err)
 
 		return c.JSON(http.StatusInternalServerError, allPariwisata)
 	}
 
-	c.Response().Header().Set(`Content-Type`, "application/json")
+	c.Response().Header().Set("Content-Type", "application/json")
+
 	return c.JSON(http.StatusOK, allPariwisata)
 }
 
 func (d *pariwisata) GetPariwisataByID(c echo.Context) error {
-	log.Println("Test")
-	return nil
+	pariwisataID, _ := strconv.ParseInt(c.Param("pariwisata_id"), 10, 64)
+
+	ctx := c.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	pariwisata, err := d.pariwisataUsecase.GetPariwisataByID(pariwisataID)
+	if err != nil {
+		log.Println("[Delivery][Pariwisata][GetPariwisataByID] Error: ", err)
+
+		return c.JSON(http.StatusInternalServerError, pariwisata)
+	}
+
+	c.Response().Header().Set("Content-Type", "application/json")
+
+	return c.JSON(http.StatusOK, pariwisata)
 }
 
-//for Insert wisata
 func (d *pariwisata) CreatePariwisata(c echo.Context) error {
-	nama := c.Param("nama")
+	nama := c.FormValue("nama")
 	lokasi := c.FormValue("lokasi")
 	description := c.FormValue("description")
 	contact := c.FormValue("contact")
@@ -68,7 +83,7 @@ func (d *pariwisata) UpdatePariwisata(c echo.Context) error {
 
 	pariwisata, err := d.pariwisataUsecase.UpdatePariwisata(pariwisataID, nama, lokasi, description, contact)
 	if err != nil {
-		log.Println("[Delivery][Pariwisata][Updatepariwisata] Error: ", err)
+		log.Println("[Delivery][Pariwisata][UpdatePariwisata] Error: ", err)
 
 		return c.JSON(http.StatusInternalServerError, pariwisata)
 	}
