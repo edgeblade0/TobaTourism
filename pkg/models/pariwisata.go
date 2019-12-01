@@ -7,12 +7,14 @@ package models
 // }
 
 type Pariwisata struct {
-	ID     int64  `json:"id"`
-	Name   string `json:"name"`
-	Lokasi string `json:"lokasi"`
+	ID          int64  `json:"id"`
+	Nama        string `json:"name"`
+	Lokasi      string `json:"lokasi"`
+	Description string `json:"desc"`
+	Contact     string `json:"contact"`
 }
 
-type Respone struct {
+type PariwisataResponse struct {
 	Data    []Pariwisata `json:"data"`
 	Message string       `json:"message"`
 	Status  string       `json:"status"`
