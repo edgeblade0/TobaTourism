@@ -2,6 +2,7 @@ package models
 
 const (
 	PathFileRestoran = "file/restoran/"
+	PathFileKuliner  = "file/kuliner/"
 )
 
 type Restoran struct {

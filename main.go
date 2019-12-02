@@ -23,6 +23,10 @@ import (
 	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
 	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
+
+	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
+	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
+	kulinerUseCase "github.com/TobaTourism/pkg/usecase/kuliner/module"
 )
 
 var Conf *models.Config
@@ -54,6 +58,7 @@ func main() {
 
 	restoran(e, db)
 	attachment(e, db)
+	kuliner(e, db)
 
 	log.Fatal(e.Start(":9090"))
 }
@@ -77,4 +82,12 @@ func attachment(e *echo.Echo, db *sql.DB) {
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
 	attachmentDeliver.InitAttachmentHandler(e, attachmentUseCase)
+}
+
+func kuliner(e *echo.Echo, db *sql.DB) {
+	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
+	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo)
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
 }
