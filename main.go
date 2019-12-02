@@ -25,8 +25,12 @@ import (
 	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
 
 	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
+	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
 	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
+
+	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
+	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
 )
 
 var Conf *models.Config
@@ -70,6 +74,10 @@ func startService(e *echo.Echo, db *sql.DB) {
 	experienceRepo := experienceRepo.InitExperienceRepo(db)
 	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
 	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
+
+	transportasiRepo := transportasiRepo.InitTransportasiRepo(db)
+	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo)
+	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase)
 }
 
 func restoran(e *echo.Echo, db *sql.DB) {
