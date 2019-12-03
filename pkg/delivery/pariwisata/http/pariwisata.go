@@ -52,7 +52,6 @@ func (d *pariwisata) CreatePariwisata(c echo.Context) error {
 	lokasi := c.FormValue("lokasi")
 	description := c.FormValue("description")
 	contact := c.FormValue("contact")
-	log.Println(nama)
 	ctx := c.Request().Context()
 	if ctx == nil {
 		ctx = context.Background()
