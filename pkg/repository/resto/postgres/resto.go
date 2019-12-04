@@ -6,25 +6,37 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (r *resto) GetAllResto() ([]models.Restoran, error) {
+func (r *resto) GetAllResto() ([]models.Restoran, []int64, error) {
 	allResto := []models.Restoran{}
+	var AttachmentID []int64
 
-	// rows, err := r.DB.Query(queryGetAllResto)
-	// if err != nil {
-	// 	log.Println("Repository error : ", err)
-	// 	return allResto, err
-	// }
+	statement, err := r.DB.Prepare(QuerySelectRestoran)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare] Error : ", err)
+		return allResto, AttachmentID, err
+	}
 
-	// for rows.Next() {
-	// 	pariwisata := models.Resto{}
-	// 	err := rows.Scan(&pariwisata.ID, &pariwisata.Name, &pariwisata.Lokasi)
-	// 	if err != nil {
-	// 		log.Println(err)
-	// 	}
-	// 	allResto = append(allPariwisata, pariwisata)
-	// }
+	defer statement.Close()
 
-	return allResto, nil
+	rows, err := statement.Query()
+	if err != nil {
+		log.Println("[Repository][Restoran][Query] Error : ", err)
+		return allResto, AttachmentID, err
+	}
+
+	for rows.Next() {
+		var restoran models.Restoran
+		var attachID int64
+		err := rows.Scan(&restoran.RestoID, &restoran.Contact, &restoran.Location, &restoran.Name, &attachID)
+		if err != nil {
+			log.Println("[Repository][Restoran][Row Next] Error : ", err)
+			return allResto, AttachmentID, err
+		}
+		AttachmentID = append(AttachmentID, attachID)
+		allResto = append(allResto, restoran)
+	}
+
+	return allResto, AttachmentID, err
 }
 
 func (r *resto) CreateResto(resto models.Restoran) error {
