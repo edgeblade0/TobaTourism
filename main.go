@@ -31,6 +31,10 @@ import (
 	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
 	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
+
+	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
+	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
+	kulinerUseCase "github.com/TobaTourism/pkg/usecase/kuliner/module"
 )
 
 var Conf *models.Config
@@ -62,6 +66,7 @@ func main() {
 
 	restoran(e, db)
 	attachment(e, db)
+	kuliner(e, db)
 
 	log.Fatal(e.Start(":9090"))
 }
@@ -81,10 +86,14 @@ func startService(e *echo.Echo, db *sql.DB) {
 }
 
 func restoran(e *echo.Echo, db *sql.DB) {
-	restoRepo := restoRepo.InitRestoRepo(db)
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
-	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
+	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
+	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
+
+	restoRepo := restoRepo.InitRestoRepo(db)
+	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo, attachmentRepo, kulinerRepo, kulinerUsecase)
 	restoDeliver.InitRestoHandler(e, restoUsecase, attachmentUseCase)
 }
 
@@ -92,4 +101,13 @@ func attachment(e *echo.Echo, db *sql.DB) {
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
 	attachmentDeliver.InitAttachmentHandler(e, attachmentUseCase)
+}
+
+func kuliner(e *echo.Echo, db *sql.DB) {
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
+	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
+	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
+	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
 }

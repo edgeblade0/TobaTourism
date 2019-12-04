@@ -25,4 +25,9 @@ const (
 			$4
 		)
 	`
+
+	QuerySelectRestoran = `
+		SELECT resto_id,resto_kontak,resto_lokasi,resto_name,attachment_id
+		FROM restoran
+	`
 )

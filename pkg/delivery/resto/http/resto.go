@@ -10,18 +10,23 @@ import (
 )
 
 func (d *resto) GetAllResto(c echo.Context) error {
+	var resp models.Responses
+	resp.Status = models.StatusFailed
 	ctx := c.Request().Context()
 	if ctx == nil {
 		ctx = context.Background()
 	}
 
-	allResto, err := d.restoUsecase.GetAllResto()
+	data, err := d.restoUsecase.GetAllResto()
 	if err != nil {
 		log.Println(err)
 	}
+	resp.Data = data
 
+	resp.Status = models.StatusSucces
+	resp.Message = models.MessageSucces
 	c.Response().Header().Set(`X-Cursor`, "header")
-	return c.JSON(http.StatusOK, allResto)
+	return c.JSON(http.StatusOK, resp)
 }
 
 func (d *resto) InsertResto(c echo.Context) error {
