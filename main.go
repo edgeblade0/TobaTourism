@@ -71,10 +71,14 @@ func pariwisata(e *echo.Echo, db *sql.DB) {
 }
 
 func restoran(e *echo.Echo, db *sql.DB) {
-	restoRepo := restoRepo.InitRestoRepo(db)
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
-	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
+	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
+	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
+
+	restoRepo := restoRepo.InitRestoRepo(db)
+	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo, attachmentRepo, kulinerRepo, kulinerUsecase)
 	restoDeliver.InitRestoHandler(e, restoUsecase, attachmentUseCase)
 }
 
@@ -85,9 +89,10 @@ func attachment(e *echo.Echo, db *sql.DB) {
 }
 
 func kuliner(e *echo.Echo, db *sql.DB) {
-	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
-	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo)
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
+	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
+	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
 	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
 }

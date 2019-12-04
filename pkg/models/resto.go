@@ -6,21 +6,21 @@ const (
 )
 
 type Restoran struct {
-	RestoID      int64      `json:"resto_id"`
-	Contact      string     `json:"contact"`
-	Location     string     `json:"location"`
-	Name         string     `json:"name"`
-	ListCulinary []Culinary `json:"list_culinary"`
-	AttachmentID int64      `json:"attachment_id"`
-	Attachment   Attachment `json:"attachment"`
+	RestoID      int64      `json:"restaurantId,omitempty"`
+	Name         string     `json:"restaurantName,omitempty"`
+	Contact      string     `json:"restaurantContact,omitempty"`
+	Location     string     `json:"restaurantLocation,omitempty"`
+	ListCulinary []Culinary `json:"culinaryList,omitempty"`
+	AttachmentID int64      `json:"attachmentID,omitempty"`
+	Attachment   []string   `json:"restaurantImage,omitempty"`
 }
 
 type Culinary struct {
-	CulinaryID   int64      `json:"culinary_id"`
-	RestoID      int64      `json:"resto_id"`
-	Name         string     `json:"name"`
-	Price        int64      `json:"price"`
-	Desc         string     `json:"desc"`
-	AttachmentID int64      `json:"attachment_id"`
-	Attachment   Attachment `json:"attachment"`
+	CulinaryID   int64    `json:"culinaryId,omitempty"`
+	RestoID      int64    `json:"restaurantId,omitempty"`
+	Name         string   `json:"culinaryName,omitempty"`
+	Price        int64    `json:"culinaryPrice,omitempty"`
+	Desc         string   `json:"culinaryDesc,omitempty"`
+	AttachmentID int64    `json:"attachmentID,omitempty"`
+	Attachment   []string `json:"culinaryImage,omitempty"`
 }

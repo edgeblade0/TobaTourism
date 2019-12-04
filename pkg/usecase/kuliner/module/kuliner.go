@@ -8,15 +8,23 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-// func (u *resto) GetAllResto() ([]models.Restoran, error) {
-// 	allResto, err := u.restoRepo.GetAllResto()
-// 	if err != nil {
-// 		log.Println(err)
-// 		return allResto, err
-// 	}
+func (u *kuliner) GetAllCulinary(restoID int64) ([]models.Culinary, error) {
+	allCulinary, attachmentID, err := u.kulinerRepo.GetAllKuliner(restoID)
+	if err != nil {
+		log.Println("[Kuliner][Usecase][GetAllKuliner] Error : ", err)
+		return allCulinary, err
+	}
 
-// 	return allResto, err
-// }
+	for i, id := range attachmentID {
+		allCulinary[i].Attachment, err = u.attachmentRepo.GetAttachment(id)
+		if err != nil {
+			log.Println("[Kuliner][Usecase][GetAttachment] Error : ", err)
+			return allCulinary, err
+		}
+
+	}
+	return allCulinary, err
+}
 
 func (u *kuliner) CreateKuliner(restoID string, name string, desc string, price string, attachmentID int64) error {
 	var culinary models.Culinary

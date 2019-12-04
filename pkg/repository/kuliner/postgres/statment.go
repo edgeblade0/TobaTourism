@@ -16,4 +16,9 @@ const (
 			$5
 		)
 	`
+	QuerySelectAllCulinary = `
+		SELECT kuliner_id,kuliner_nama,kuliner_harga,kuliner_harga,attachment_id
+		FROM kuliner
+		WHERE resto_id = $1
+	`
 )

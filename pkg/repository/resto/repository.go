@@ -5,6 +5,6 @@ import (
 )
 
 type Repository interface {
-	GetAllResto() ([]models.Restoran, error)
+	GetAllResto() ([]models.Restoran, []int64, error)
 	CreateResto(resto models.Restoran) error
 }
