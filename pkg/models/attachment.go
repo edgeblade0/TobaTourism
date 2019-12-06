@@ -4,6 +4,7 @@ const (
 	HomeAttachment = "localhost:9090/file?path="
 
 	RestoranTypeAttachment = 1
+	KulinerTypeAttachment  = 2
 )
 
 type Attachment struct {

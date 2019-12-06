@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/TobaTourism/pkg/models"
@@ -23,16 +24,19 @@ func (a *attachment) InsertFile(Attachment models.Attachment) (int64, error) {
 	return AttachmentID, nil
 }
 
-func (a *attachment) GetAttachment(AttchmentID int64) (string, error) {
+func (a *attachment) GetAttachment(AttchmentID int64) ([]string, error) {
+	var attachment []string
 	var Content string
 	statement, err := a.DB.Prepare(QuerySelectAttachment)
 	if err != nil {
 		log.Println("[Repository][Attachment][Prepare GetAttachment] Error : ", err)
-		return Content, err
+		return attachment, err
 	}
 
 	statement.QueryRow(AttchmentID).Scan(&Content)
 
-	return Content, err
+	json.Unmarshal([]byte(Content), &attachment)
+
+	return attachment, err
 
 }
