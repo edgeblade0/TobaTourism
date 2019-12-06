@@ -20,5 +20,5 @@ func InitKulinerHandler(e *echo.Echo, p kulinerUsecase.Usecase, a attachmentUsec
 
 	// handler
 	// e.GET("/resto", handler.GetAllResto)
-	e.POST("/api/kuliner/create/:restoranId", handler.CreateKuliner)
+	e.POST("/api/restaurant/:id/culinary", handler.CreateKuliner)
 }

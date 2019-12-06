@@ -30,4 +30,9 @@ const (
 		SELECT resto_id,resto_kontak,resto_lokasi,resto_name,attachment_id
 		FROM restoran
 	`
+
+	QuerySelectRestoranByID = `
+		SELECT resto_id,resto_kontak,resto_lokasi,resto_name,attachment_id
+		FROM restoran WHERE resto_id = $1
+	`
 )

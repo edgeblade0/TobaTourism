@@ -5,6 +5,7 @@ import (
 )
 
 type delivery interface {
-	GetAllResto(c echo.Context) error
+	GetAllRestoWithKuliner(c echo.Context) error
+	GetDetailResto(c echo.Context) error
 	InsertResto(c echo.Context) error
 }
