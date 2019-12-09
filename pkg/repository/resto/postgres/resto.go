@@ -6,6 +6,39 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
+// func (r *resto) GetAllRestoWithKuliner() ([]models.Restoran, []int64, error) {
+// 	allResto := []models.Restoran{}
+// 	var AttachmentID []int64
+
+// 	statement, err := r.DB.Prepare(QuerySelectRestoran)
+// 	if err != nil {
+// 		log.Println("[Repository][Restoran][Prepare] Error : ", err)
+// 		return allResto, AttachmentID, err
+// 	}
+
+// 	defer statement.Close()
+
+// 	rows, err := statement.Query()
+// 	if err != nil {
+// 		log.Println("[Repository][Restoran][Query] Error : ", err)
+// 		return allResto, AttachmentID, err
+// 	}
+
+// 	for rows.Next() {
+// 		var restoran models.Restoran
+// 		var attachID int64
+// 		err := rows.Scan(&restoran.RestoID, &restoran.Contact, &restoran.Location, &restoran.Name, &attachID)
+// 		if err != nil {
+// 			log.Println("[Repository][Restoran][Row Next] Error : ", err)
+// 			return allResto, AttachmentID, err
+// 		}
+// 		AttachmentID = append(AttachmentID, attachID)
+// 		allResto = append(allResto, restoran)
+// 	}
+
+// 	return allResto, AttachmentID, err
+// }
+
 func (r *resto) GetAllResto() ([]models.Restoran, []int64, error) {
 	allResto := []models.Restoran{}
 	var AttachmentID []int64
@@ -35,8 +68,40 @@ func (r *resto) GetAllResto() ([]models.Restoran, []int64, error) {
 		AttachmentID = append(AttachmentID, attachID)
 		allResto = append(allResto, restoran)
 	}
-
 	return allResto, AttachmentID, err
+}
+
+func (r *resto) GetDetailResto(restoId int64) (models.Restoran, error) {
+	Resto := models.Restoran{}
+
+	statement, err := r.DB.Prepare(QuerySelectRestoranByID)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare] Error : ", err)
+		return Resto, err
+	}
+
+	defer statement.Close()
+
+	rows, err := statement.Query(restoId)
+
+	if err != nil {
+		log.Println("[Repository][Restoran][Query] Error : ", err)
+		return Resto, err
+	}
+
+	for rows.Next() {
+		var restoran models.Restoran
+		var attachID int64
+		err := rows.Scan(&restoran.RestoID, &restoran.Contact, &restoran.Location, &restoran.Name, &attachID)
+		if err != nil {
+			log.Println("[Repository][Restoran][Row Next] Error : ", err)
+			return Resto, err
+		}
+		Resto = restoran
+		Resto.AttachmentID = attachID
+	}
+
+	return Resto, err
 }
 
 func (r *resto) CreateResto(resto models.Restoran) error {

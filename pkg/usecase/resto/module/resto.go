@@ -7,7 +7,8 @@ import (
 	"github.com/TobaTourism/pkg/models"
 )
 
-func (u *resto) GetAllResto() ([]models.Restoran, error) {
+func (u *resto) GetAllRestoWithKuliner() ([]models.Restoran, error) {
+	var Restouran []models.Restoran
 	allResto, attachmentID, err := u.restoRepo.GetAllResto()
 	if err != nil {
 		log.Println("[Restoran][Usecase][GetAllRestoran] Error : ", err)
@@ -26,6 +27,57 @@ func (u *resto) GetAllResto() ([]models.Restoran, error) {
 			log.Println("[Restoran][Usecase][GetAllKuliner] Error : ", err)
 			return allResto, err
 		}
+	}
+
+	for _, resto := range allResto {
+		if len(resto.ListCulinary) > 0 {
+			Restouran = append(Restouran, resto)
+		}
+	}
+
+	return Restouran, err
+}
+
+func (u *resto) GetAllResto() ([]models.Restoran, error) {
+	allResto, attachmentID, err := u.restoRepo.GetAllResto()
+	if err != nil {
+		log.Println("[Restoran][Usecase][GetAllRestoran] Error : ", err)
+		return allResto, err
+	}
+
+	for i, id := range attachmentID {
+		allResto[i].Attachment, err = u.attachmentRepo.GetAttachment(id)
+		if err != nil {
+			log.Println("[Restoran][Usecase][GetAttachment] Error : ", err)
+			return allResto, err
+		}
+
+		// allResto[i].ListCulinary, err = u.kulinerUsecase.GetAllCulinary(allResto[i].RestoID)
+		// if err != nil {
+		// 	log.Println("[Restoran][Usecase][GetAllKuliner] Error : ", err)
+		// 	return allResto, err
+		// }
+	}
+
+	return allResto, err
+}
+
+func (u *resto) GetDetailResto(restoID int64) (models.Restoran, error) {
+	allResto, err := u.restoRepo.GetDetailResto(restoID)
+	if err != nil {
+		log.Println("[Restoran][Usecase][GetDetailRestoran] Error : ", err)
+		return allResto, err
+	}
+	allResto.Attachment, err = u.attachmentRepo.GetAttachment(allResto.AttachmentID)
+	if err != nil {
+		log.Println("[Restoran][Usecase][GetAttachment] Error : ", err)
+		return allResto, err
+	}
+
+	allResto.ListCulinary, err = u.kulinerUsecase.GetAllCulinary(allResto.RestoID)
+	if err != nil {
+		log.Println("[Restoran][Usecase][GetAllKuliner] Error : ", err)
+		return allResto, err
 	}
 
 	return allResto, err
