@@ -19,6 +19,9 @@ func InitKulinerHandler(e *echo.Echo, p kulinerUsecase.Usecase, a attachmentUsec
 	}
 
 	// handler
-	// e.GET("/resto", handler.GetAllResto)
-	e.POST("/api/kuliner/create/:restoranId", handler.CreateKuliner)
+	e.POST("/api/restaurant/:restoranId/culinary", handler.CreateKuliner)
+	e.GET("/api/restaurant/:restaurantId/culinary/:culinaryId", handler.GetDetailKuliner)
+	e.PUT("/api/restaurant/:restaurantId/culinary/:culinaryId", handler.UpdateKuliner)
+	e.PUT("/api/restaurant/image/:restaurantId/culinary/:culinaryId", handler.UpdateImageKuliner)
+	e.DELETE("/api/restaurant/:restaurantId/culinary/:culinaryId", handler.DeleteKuliner)
 }
