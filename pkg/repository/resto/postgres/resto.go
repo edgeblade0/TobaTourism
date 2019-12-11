@@ -119,3 +119,52 @@ func (r *resto) CreateResto(resto models.Restoran) error {
 	}
 	return err
 }
+
+func (r *resto) UpdateImageResto(resto models.Restoran) error {
+	statement, err := r.DB.Prepare(QueryUpdateImageRestoran)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare Update Image] Error : ", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(resto.AttachmentID, resto.RestoID)
+	if err != nil {
+		log.Println("[Repository][Restoran][Execute Update Image] Error : ", err)
+		return err
+	}
+	return err
+}
+
+func (r *resto) UpdateResto(resto models.Restoran) error {
+	log.Println(resto)
+	statement, err := r.DB.Prepare(QueryUpdateRestoran)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare Update] Error : ", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(resto.Contact, resto.Location, resto.Name, resto.RestoID)
+	if err != nil {
+		log.Println("[Repository][Restoran][Execute Update] Error : ", err)
+		return err
+	}
+	return err
+}
+
+func (r *resto) DeleteResto(restoID int64) error {
+	statement, err := r.DB.Prepare(QueryDeleteRestoran)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare delete] Error : ", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(restoID)
+	if err != nil {
+		log.Println("[Repository][Restoran][Execute delete] Error : ", err)
+		return err
+	}
+	return err
+}
