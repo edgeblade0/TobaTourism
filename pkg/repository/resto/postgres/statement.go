@@ -35,4 +35,13 @@ const (
 		SELECT resto_id,resto_kontak,resto_lokasi,resto_name,attachment_id
 		FROM restoran WHERE resto_id = $1
 	`
+
+	QueryUpdateRestoran = `
+		UPDATE restoran
+		SET 
+			resto_kontak = $1,
+			resto_lokasi = $2,
+			resto_name = $3
+		WHERE resto_id = $4
+	`
 )

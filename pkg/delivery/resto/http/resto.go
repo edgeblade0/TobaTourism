@@ -110,3 +110,28 @@ func (d *resto) InsertResto(c echo.Context) error {
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
+
+func (d *resto) UpdateResto(c echo.Context) error {
+	var resp models.Responses
+	resp.Status = models.StatusFailed
+	ctx := c.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	restoID := c.Param("restauranID")
+	restoName := c.FormValue("restaurantName")
+	restoContact := c.FormValue("restaurantContact")
+	restoLocation := c.FormValue("restaurantLocation")
+
+	err := d.restoUsecase.UpdateRestoran(restoID, restoName, restoContact, restoLocation)
+	if err != nil {
+		log.Println("[Delivery][Restoran][UpadateRespo] Error : ", err)
+		c.Response().Header().Set(`X-Cursor`, "header")
+		return c.JSON(http.StatusInternalServerError, resp)
+	}
+
+	resp.Status = models.StatusSucces
+	c.Response().Header().Set(`X-Cursor`, "header")
+	return c.JSON(http.StatusOK, resp)
+}

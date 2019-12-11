@@ -23,4 +23,5 @@ func InitRestoHandler(e *echo.Echo, p restoUsecase.Usecase, a attachmentUsecase.
 	e.GET("/api/restaurant", handler.GetAllResto)
 	e.GET("api/restaurant/:id", handler.GetDetailResto)
 	e.POST("/api/restaurant", handler.InsertResto)
+	e.PUT("/api/restauran/:restauranID", handler.UpdateResto)
 }

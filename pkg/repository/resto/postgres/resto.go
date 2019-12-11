@@ -119,3 +119,19 @@ func (r *resto) CreateResto(resto models.Restoran) error {
 	}
 	return err
 }
+
+func (r *resto) UpdateResto(resto models.Restoran) error {
+	statement, err := r.DB.Prepare(QueryUpdateRestoran)
+	if err != nil {
+		log.Println("[Repository][Restoran][Prepare Update] Error : ", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(resto.Contact, resto.Location, resto.Name, resto.RestoID)
+	if err != nil {
+		log.Println("[Repository][Restoran][Execute Update] Error : ", err)
+		return err
+	}
+	return err
+}
