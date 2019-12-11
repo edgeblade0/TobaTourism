@@ -67,14 +67,12 @@ func main() {
 	restoran(e, db)
 	attachment(e, db)
 	kuliner(e, db)
+	pariwisata(e, db)
 
 	log.Fatal(e.Start(":9090"))
 }
 
 func startService(e *echo.Echo, db *sql.DB) {
-	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
-	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo)
-	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase)
 
 	experienceRepo := experienceRepo.InitExperienceRepo(db)
 	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
@@ -110,4 +108,12 @@ func kuliner(e *echo.Echo, db *sql.DB) {
 	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
 	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
 	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
+}
+
+func pariwisata(e *echo.Echo, db *sql.DB){
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
+	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo,attachmentRepo)
+	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase,attachmentUseCase )
 }

@@ -7,13 +7,20 @@ import (
 )
 
 func (u *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
-	allPariwisata, err := u.pariwisataRepo.GetAllPariwisata()
+	allPariwisata, attachmentID, err := u.pariwisataRepo.GetAllPariwisata()
 	if err != nil {
 		log.Println("[Usecase][Pariwisata][GetAllPariwisata] Error: ", err)
 
 		return allPariwisata, err
 	}
 
+	for i, id := range attachmentID {
+		allPariwisata.Data[i].Attachment, err = u.attachmentRepo.GetAttachment(id)
+		if err != nil {
+			log.Println("[Restoran][Usecase][GetAttachment] Error : ", err)
+			return allPariwisata, err
+		}
+	}
 	return allPariwisata, nil
 }
 
@@ -28,8 +35,8 @@ func (u *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataRes
 	return pariwisata, nil
 }
 
-func (u *pariwisata) CreatePariwisata(nama, lokasi, description, contact string) (models.PariwisataResponse, error) {
-	pariwisata, err := u.pariwisataRepo.CreatePariwisata(nama, lokasi, description, contact)
+func (u *pariwisata) CreatePariwisata(nama string, lokasi string, description string, contact string, attachmentID int64) (models.PariwisataResponse, error) {
+	pariwisata, err := u.pariwisataRepo.CreatePariwisata(nama, lokasi, description, contact, attachmentID)
 	if err != nil {
 		log.Println("[Usecase][Pariwisata][CreatePariwisata] Error: ", err)
 
