@@ -43,11 +43,11 @@ func (u *kuliner) CreateKuliner(restoID string, name string, desc string, price 
 	}
 	culinary.Name = name
 
-	if desc == "" {
-		err := fmt.Errorf("[Kuliner][Usecase][desc] empty field name")
-		log.Println(err)
-		return err
-	}
+	// if desc == "" {
+	// 	err := fmt.Errorf("[Kuliner][Usecase][desc] empty field Desc")
+	// 	log.Println(err)
+	// 	return err
+	// }
 	culinary.Desc = desc
 
 	priceInt, err := strconv.ParseInt(price, 10, 64)

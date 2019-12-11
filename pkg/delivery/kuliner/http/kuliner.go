@@ -5,8 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/TobaTourism/pkg/models"
 	"github.com/labstack/echo"
+
+	"github.com/TobaTourism/pkg/models"
 )
 
 func (d *kuliner) CreateKuliner(c echo.Context) error {
@@ -28,7 +29,7 @@ func (d *kuliner) CreateKuliner(c echo.Context) error {
 		c.Response().Header().Set(`X-Cursor`, "header")
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
-	files := form.File["image"]
+	files := form.File["culinaryImage"]
 	attachmentID, err := d.attachmentUsecase.InsertAttachment(files, models.PathFileKuliner, models.KulinerTypeAttachment)
 	if err != nil {
 		log.Println("[Delivery][Kuliner][InsertAttachment] Error : ", err)
