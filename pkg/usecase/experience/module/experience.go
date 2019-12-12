@@ -14,6 +14,17 @@ func (u *experience) GetAllExperience() (models.ExperienceResponse, error) {
 		return allExperience, err
 	}
 
+	for i := range allExperience.Data {
+		attachments, err := u.attachmentRepo.GetAttachment(allExperience.Data[i].AttachmentID)
+		if err != nil {
+			log.Println("[Usecase][Experience][GetAllExperience][GetAttachment] Error: ", err)
+
+			return allExperience, err
+		}
+
+		allExperience.Data[i].Attachments = attachments
+	}
+
 	return allExperience, nil
 }
 
@@ -25,11 +36,29 @@ func (u *experience) GetExperienceByID(experienceID int64) (models.ExperienceRes
 		return experience, err
 	}
 
+	if experience.Data == nil || len(experience.Data) == 0 {
+		log.Println("[Usecase][Experience][GetExperienceByID] Error: Data nil or not found")
+
+		experience.Message = models.MessageNotFound
+		experience.Status = models.StatusNotFound
+
+		return experience, err
+	}
+
+	attachments, err := u.attachmentRepo.GetAttachment(experience.Data[0].AttachmentID)
+	if err != nil {
+		log.Println("[Usecase][Experience][GetExperienceByID][GetAttachment] Error: ", err)
+
+		return experience, err
+	}
+
+	experience.Data[0].Attachments = attachments
+
 	return experience, nil
 }
 
-func (u *experience) CreateExperience(description, lokasi string) (models.ExperienceResponse, error) {
-	experience, err := u.experienceRepo.CreateExperience(description, lokasi)
+func (u *experience) CreateExperience(description, location string, attachmentID int64) (models.ExperienceResponse, error) {
+	experience, err := u.experienceRepo.CreateExperience(description, location, attachmentID)
 	if err != nil {
 		log.Println("[Usecase][Experience][CreateExperience] Error: ", err)
 
@@ -39,8 +68,8 @@ func (u *experience) CreateExperience(description, lokasi string) (models.Experi
 	return experience, nil
 }
 
-func (u *experience) UpdateExperience(experienceID int64, description, lokasi string) (models.ExperienceResponse, error) {
-	experience, err := u.experienceRepo.UpdateExperience(experienceID, description, lokasi)
+func (u *experience) UpdateExperience(experienceID int64, description, location string, attachmentID int64) (models.ExperienceResponse, error) {
+	experience, err := u.experienceRepo.UpdateExperience(experienceID, description, location, attachmentID)
 	if err != nil {
 		log.Println("[Usecase][Experience][UpdateExperience] Error: ", err)
 

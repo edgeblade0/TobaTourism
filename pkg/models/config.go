@@ -1,10 +1,13 @@
 package models
 
 const (
-	StatusSucces  = "OK"
-	StatusFailed  = "failed"
-	MessageSucces = "Berhasil"
-	MessageFailed = "Tidak Berhasil"
+	MessageSuccess  = "Success"
+	MessageFailed   = "Failed"
+	MessageNotFound = "Not Found"
+
+	StatusSuccess  = "200"
+	StatusFailed   = "500"
+	StatusNotFound = "404"
 )
 
 type DatabaseConfig struct {

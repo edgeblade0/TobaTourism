@@ -44,8 +44,8 @@ func (d *kuliner) CreateKuliner(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -68,7 +68,7 @@ func (d *kuliner) GetDetailKuliner(c echo.Context) error {
 	}
 	resp.Data = data
 
-	resp.Message = models.MessageSucces
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -94,7 +94,7 @@ func (d *kuliner) UpdateKuliner(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
+	resp.Status = models.StatusSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -131,8 +131,8 @@ func (d *kuliner) UpdateImageKuliner(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -154,8 +154,8 @@ func (d *kuliner) DeleteKuliner(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }

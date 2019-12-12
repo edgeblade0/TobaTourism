@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/TobaTourism/middleware"
+	"github.com/TobaTourism/pkg/common/config"
+	"github.com/TobaTourism/pkg/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
 
-	"github.com/TobaTourism/middleware"
-	"github.com/TobaTourism/pkg/common/config"
 	pariwisataDeliver "github.com/TobaTourism/pkg/delivery/pariwisata/http"
-	"github.com/TobaTourism/pkg/models"
 	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
 	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
 
@@ -25,11 +25,11 @@ import (
 	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
 
 	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
-	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
 	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
-
-	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
+
+	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
+	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
 
 	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
@@ -64,50 +64,37 @@ func main() {
 	// Start all services
 	startService(e, db)
 
-	restoran(e, db)
-	attachment(e, db)
-	kuliner(e, db)
-
 	log.Fatal(e.Start(":9090"))
 }
 
 func startService(e *echo.Echo, db *sql.DB) {
+	/* ATTACHMENT */
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+	attachmentDeliver.InitAttachmentHandler(e, attachmentUseCase)
+
+	/* PARIWISATA */
 	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
 	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo)
 	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase)
 
+	/* EXPERIENCE */
 	experienceRepo := experienceRepo.InitExperienceRepo(db)
-	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
-	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
+	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo, attachmentRepo)
+	experienceDeliver.InitExperienceHandler(e, experienceUsecase, attachmentUseCase)
 
+	/* TRANSPORTASI */
 	transportasiRepo := transportasiRepo.InitTransportasiRepo(db)
 	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo)
 	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase)
-}
 
-func restoran(e *echo.Echo, db *sql.DB) {
-	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
-	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
-
-	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
-	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
-
-	restoRepo := restoRepo.InitRestoRepo(db)
-	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo, attachmentRepo, kulinerRepo, kulinerUsecase)
-	restoDeliver.InitRestoHandler(e, restoUsecase, attachmentUseCase)
-}
-
-func attachment(e *echo.Echo, db *sql.DB) {
-	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
-	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
-	attachmentDeliver.InitAttachmentHandler(e, attachmentUseCase)
-}
-
-func kuliner(e *echo.Echo, db *sql.DB) {
-	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
-	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
-
+	/* KULINER */
 	kulinerRepo := kulinerRepo.InitKulinerRepo(db)
 	kulinerUsecase := kulinerUseCase.InitKulinerUsecase(kulinerRepo, attachmentRepo)
 	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
+
+	/* RESTORAN */
+	restoRepo := restoRepo.InitRestoRepo(db)
+	restoUsecase := restoUseCase.InitRestoUsecase(restoRepo, attachmentRepo, kulinerRepo, kulinerUsecase)
+	restoDeliver.InitRestoHandler(e, restoUsecase, attachmentUseCase)
 }
