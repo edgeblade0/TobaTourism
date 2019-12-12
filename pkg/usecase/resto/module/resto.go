@@ -3,6 +3,7 @@ package module
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/TobaTourism/pkg/models"
 )
@@ -52,11 +53,6 @@ func (u *resto) GetAllResto() ([]models.Restoran, error) {
 			return allResto, err
 		}
 
-		// allResto[i].ListCulinary, err = u.kulinerUsecase.GetAllCulinary(allResto[i].RestoID)
-		// if err != nil {
-		// 	log.Println("[Restoran][Usecase][GetAllKuliner] Error : ", err)
-		// 	return allResto, err
-		// }
 	}
 
 	return allResto, err
@@ -117,6 +113,94 @@ func (u *resto) CreateResto(name string, location string, contact string, attach
 	err := u.restoRepo.CreateResto(resto)
 	if err != nil {
 		log.Println("[Restoran][Usecase][CreateResto] Error : ", err)
+		return err
+	}
+
+	return err
+}
+
+func (u *resto) UpdateImageRestoran(restoID string, attachmentID int64) error {
+	var resto models.Restoran
+
+	restoIDInt, err := strconv.ParseInt(restoID, 10, 64)
+	if err != nil {
+		log.Println("[Usecase][Restoran][Parse RestoID on Update] Error : ", err)
+		return err
+	}
+	resto.RestoID = restoIDInt
+
+	if attachmentID == 0 {
+		err = fmt.Errorf("[Usecase][Restoran][AttachmentID] no AttachmentID")
+		log.Println(err)
+		return err
+	}
+	resto.AttachmentID = attachmentID
+
+	err = u.restoRepo.UpdateImageResto(resto)
+	if err != nil {
+		log.Println("[Restoran][Usecase][CreateResto] Error : ", err)
+		return err
+	}
+
+	return err
+}
+
+func (u *resto) UpdateRestoran(restoID string, restoName string, restoContact string, restoLocation string) error {
+	var resto models.Restoran
+
+	restoIDInt, err := strconv.ParseInt(restoID, 10, 64)
+	if err != nil {
+		log.Println("[Usecase][Restoran][Parse RestoID on Update] Error : ", err)
+		return err
+	}
+	resto.RestoID = restoIDInt
+
+	if restoName == "" {
+		err = fmt.Errorf("[Usecase][Restoran][restoName Update] no name")
+		log.Println(err)
+		return err
+	}
+	resto.Name = restoName
+
+	if restoContact == "" {
+		err = fmt.Errorf("[Usecase][Restoran][restoContact] no contact")
+		log.Println(err)
+		return err
+	}
+	resto.Contact = restoContact
+
+	if restoLocation == "" {
+		err = fmt.Errorf("[Usecase][Restoran][restoLocation] no location")
+		log.Println(err)
+		return err
+	}
+	resto.Location = restoLocation
+
+	err = u.restoRepo.UpdateResto(resto)
+	if err != nil {
+		log.Println("[Restoran][Usecase][updateResto] Error : ", err)
+		return err
+	}
+
+	return err
+}
+
+func (u *resto) DeleteResto(restoID string) error {
+	restoIDInt, err := strconv.ParseInt(restoID, 10, 64)
+	if err != nil {
+		log.Println("[Usecase][Restoran][Parse RestoID on Delete] Error : ", err)
+		return err
+	}
+
+	err = u.restoRepo.DeleteResto(restoIDInt)
+	if err != nil {
+		log.Println("[Restoran][Usecase][DeleteResto] Error : ", err)
+		return err
+	}
+
+	err = u.kulinerRepo.DeleteAllKuliner(restoIDInt)
+	if err != nil {
+		log.Println("[Restoran][Usecase][DeleteKuliner] Error : ", err)
 		return err
 	}
 
