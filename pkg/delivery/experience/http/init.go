@@ -3,17 +3,20 @@ package http
 import (
 	"github.com/labstack/echo"
 
+	attachmentUsecase "github.com/TobaTourism/pkg/usecase/attachment"
 	experienceUsecase "github.com/TobaTourism/pkg/usecase/experience"
 )
 
 type experience struct {
 	experienceUsecase experienceUsecase.Usecase
+	attachmentUsecase attachmentUsecase.Usecase
 }
 
 // InitExperienceHandler initialize handler
-func InitExperienceHandler(e *echo.Echo, p experienceUsecase.Usecase) {
+func InitExperienceHandler(e *echo.Echo, p experienceUsecase.Usecase, a attachmentUsecase.Usecase) {
 	handler := &experience{
 		experienceUsecase: p,
+		attachmentUsecase: a,
 	}
 
 	// Handle GET

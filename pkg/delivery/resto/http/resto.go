@@ -25,8 +25,8 @@ func (d *resto) GetAllRestoWithKuliner(c echo.Context) error {
 	}
 	resp.Data = data
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -45,8 +45,8 @@ func (d *resto) GetAllResto(c echo.Context) error {
 	}
 	resp.Data = data
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -67,8 +67,8 @@ func (d *resto) GetDetailResto(c echo.Context) error {
 	}
 	resp.Data = data
 
-	resp.Status = models.StatusSucces
-	resp.Message = models.MessageSucces
+	resp.Status = models.StatusSuccess
+	resp.Message = models.MessageSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -106,7 +106,7 @@ func (d *resto) InsertResto(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
+	resp.Status = models.StatusSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -143,7 +143,7 @@ func (d *resto) UpdateImageResto(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
+	resp.Status = models.StatusSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -168,7 +168,7 @@ func (d *resto) UpdateResto(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	resp.Status = models.StatusSucces
+	resp.Status = models.StatusSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
@@ -187,7 +187,7 @@ func (d *resto) DeleteResto(c echo.Context) error {
 		c.Response().Header().Set(`X-Cursor`, "header")
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
-	resp.Status = models.StatusSucces
+	resp.Status = models.StatusSuccess
 	c.Response().Header().Set(`X-Cursor`, "header")
 	return c.JSON(http.StatusOK, resp)
 }
