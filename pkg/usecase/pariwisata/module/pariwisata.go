@@ -2,6 +2,8 @@ package module
 
 import (
 	"log"
+	"strconv"
+	"fmt"
 
 	"github.com/TobaTourism/pkg/models"
 )
@@ -67,3 +69,35 @@ func (u *pariwisata) DeletePariwisata(pariwisataID int64) (models.PariwisataResp
 
 	return pariwisata, nil
 }
+
+
+func (k *pariwisata) UpdateImagePariwisata(pariwisataID string, attachmentID int64) error{
+	var pariwisata models.Pariwisata
+	
+	pariwisataIDInt, err := strconv.ParseInt(pariwisataID, 10, 64)
+	if err != nil {
+		log.Println("[Usecase][Pariwisata][Parse pariwisatID on update Pariwisata] Error: ", err)
+		return  err
+	}
+
+	pariwisata.ID = pariwisataIDInt
+	
+
+	if attachmentID == 0 {
+		err = fmt.Errorf("[Usecase][Pariwisata][AttachmentID on update] no AttachmentID ")
+
+		log.Println(err)
+		return  err 
+	}
+	pariwisata.AttachmentID = attachmentID
+
+	err = k.pariwisataRepo.UpdateImagePariwisata(pariwisata)
+	if err != nil {
+		log.Println("[Usecase][Pariwisata][UpdatePariwisata]", err)
+		
+		return   err
+	}
+	return  err
+}
+
+

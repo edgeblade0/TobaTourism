@@ -123,3 +123,39 @@ func (d *pariwisata) DeletePariwisata(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, pariwisata)
 }
+
+func (d *pariwisata) UpdateImagePariwisata(c echo.Context) error{
+	var resp models.Responses
+	resp.Status = models.StatusFailed
+	ctx := c.Request().Context()
+	if ctx == nil{
+		ctx = context.Background()
+	}
+	pariwisataID := c.Param("pariwisata_id")
+	//multipart
+	form, err := c.MultipartForm()
+	if err != nil {
+		log.Println("[Delivery][Pariwisata][MultipartForm] Error : ", err)
+		c.Response().Header().Set(`X-Cursor`, "header")
+		return c.JSON(http.StatusInternalServerError, resp)
+	}
+	files := form.File["pariwsataImage"]
+	attachmentID, err := d.attachmentUsecase.InsertAttachment(files, models.PathFilePariwisata, models.PariwisataTypeAttachment)
+	if err != nil {
+		log.Println("[Delivery][Pariwisata][InsertAttachment on Update] Error : ", err)
+		c.Response().Header().Set(`X-Cursor`, "header")
+		return c.JSON(http.StatusInternalServerError, resp)
+	}
+
+	err = d.pariwisataUsecase.UpdateImagePariwisata(pariwisataID, attachmentID)
+	if err != nil {
+		log.Println("[Delivery][Pariwisata][Update] Error : ", err)
+		c.Response().Header().Set(`X-Cursor`, "header")
+		return c.JSON(http.StatusInternalServerError, resp)
+	}
+
+	resp.Status = models.StatusSucces
+	resp.Message = models.MessageSucces
+	c.Response().Header().Set(`X-Cursor`, "header")
+	return c.JSON(http.StatusOK, resp)
+}

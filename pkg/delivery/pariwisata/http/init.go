@@ -27,7 +27,9 @@ func InitPariwisataHandler(e *echo.Echo, p pariwisataUsecase.Usecase, a attachme
 
 	// Handle PUT
 	e.PUT("api/pariwisata/update/:pariwisata_id", handler.UpdatePariwisata)
+	e.PUT("/api/pariwisata/image/:pariwisata_id", handler.UpdateImagePariwisata)
 
 	// Handle DELETE
 	e.DELETE("api/pariwisata/delete/:pariwisata_id", handler.DeletePariwisata)
+
 }

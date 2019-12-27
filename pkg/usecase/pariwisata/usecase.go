@@ -8,4 +8,5 @@ type Usecase interface {
 	CreatePariwisata(nama string, lokasi string, description string, contact string, attachmentID int64) (models.PariwisataResponse, error)
 	UpdatePariwisata(pariwisataID int64, nama, lokasi, description, contact string) (models.PariwisataResponse, error)
 	DeletePariwisata(pariwisataID int64) (models.PariwisataResponse, error)
+	UpdateImagePariwisata(pariwisataID string, attachemntID int64) error
 }

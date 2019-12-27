@@ -10,4 +10,5 @@ type Delivery interface {
 	CreatePariwisata(c echo.Context) error
 	UpdatePariwisata(c echo.Context) error
 	DeletePariwisata(c echo.Context) error
+	UpdateImagePariwisata(c echo.Context) error
 }

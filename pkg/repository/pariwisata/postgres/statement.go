@@ -28,4 +28,9 @@ const (
 		DELETE FROM pariwisata
 		WHERE pariwisata_id=$1
 	`
+	QueryUpdateImagePariwisata = `
+		UPDATE pariwisata
+		SET attachment_id = $1
+		WHERE pariwisata_id = $2
+	`
 )

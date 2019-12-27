@@ -204,3 +204,20 @@ func (r *pariwisata) DeletePariwisata(pariwisataID int64) (models.PariwisataResp
 
 	return resp, nil
 }
+
+func (r *pariwisata) UpdateImagePariwisata(pariwisata models.Pariwisata) error{
+	statement, err := r.DB.Prepare(QueryUpdateImagePariwisata)
+	if err != nil{
+		log.Println("[Repository][Pariwisata][Prepare Update] Error :", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(pariwisata.AttachmentID, pariwisata.ID)
+	if err != nil{
+		log.Println("[Repository][Pariwisata][Execute Prepare] Error : ", err)
+		return err
+	}
+
+	return err
+}
