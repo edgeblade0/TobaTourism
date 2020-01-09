@@ -59,7 +59,7 @@ func (d *resto) GetDetailResto(c echo.Context) error {
 		ctx = context.Background()
 	}
 
-	restoID, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	restoID, _ := strconv.ParseInt(c.Param("restaurantID"), 10, 64)
 
 	data, err := d.restoUsecase.GetDetailResto(restoID)
 	if err != nil {
@@ -156,7 +156,7 @@ func (d *resto) UpdateResto(c echo.Context) error {
 		ctx = context.Background()
 	}
 
-	restoID := c.Param("restauranID")
+	restoID := c.Param("restaurantID")
 	restoName := c.FormValue("restaurantName")
 	restoContact := c.FormValue("restaurantContact")
 	restoLocation := c.FormValue("restaurantLocation")
@@ -180,7 +180,8 @@ func (d *resto) DeleteResto(c echo.Context) error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	restoID := c.Param("restauranID")
+	restoID := c.Param("restaurantID")
+	log.Println(restoID)
 	err := d.restoUsecase.DeleteResto(restoID)
 	if err != nil {
 		log.Println("[Delivery][Restoran][Delete] Error : ", err)

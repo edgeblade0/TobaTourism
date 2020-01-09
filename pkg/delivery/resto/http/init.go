@@ -19,12 +19,12 @@ func InitRestoHandler(e *echo.Echo, p restoUsecase.Usecase, a attachmentUsecase.
 	}
 
 	// handler
-	e.POST("/api/restoran/create", handler.InsertResto)
-	e.PUT("/api/restauran/image/:restauranID", handler.UpdateImageResto)
-	e.PUT("/api/restauran/:restauranID", handler.UpdateResto)
-	e.DELETE("/api/restauran/:restauranID", handler.DeleteResto)
+	e.POST("/api/restaurant", handler.InsertResto)
+	e.PUT("/api/restaurant/image/:restaurantID", handler.UpdateImageResto)
+	e.PUT("/api/restaurant/:restaurantID", handler.UpdateResto)
+	e.DELETE("/api/restaurant/:restaurantID", handler.DeleteResto)
 
 	e.GET("/api/culinary", handler.GetAllRestoWithKuliner)
 	e.GET("/api/restaurant", handler.GetAllResto)
-	e.GET("api/restaurant/:id", handler.GetDetailResto)
+	e.GET("api/restaurant/:restaurantID", handler.GetDetailResto)
 }
