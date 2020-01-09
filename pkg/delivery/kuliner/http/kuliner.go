@@ -17,7 +17,7 @@ func (d *kuliner) CreateKuliner(c echo.Context) error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	restoID := c.Param("restoranId")
+	restoID := c.Param("restorantId")
 	name := c.FormValue("culinaryName")
 	desc := c.FormValue("culinaryDescription")
 	price := c.FormValue("culinaryPrice")
@@ -43,7 +43,7 @@ func (d *kuliner) CreateKuliner(c echo.Context) error {
 		c.Response().Header().Set(`X-Cursor`, "header")
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
-
+	log.Println("Create")
 	resp.Status = models.StatusSucces
 	resp.Message = models.MessageSucces
 	c.Response().Header().Set(`X-Cursor`, "header")

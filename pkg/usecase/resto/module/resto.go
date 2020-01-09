@@ -59,24 +59,24 @@ func (u *resto) GetAllResto() ([]models.Restoran, error) {
 }
 
 func (u *resto) GetDetailResto(restoID int64) (models.Restoran, error) {
-	allResto, err := u.restoRepo.GetDetailResto(restoID)
+	resto, err := u.restoRepo.GetDetailResto(restoID)
 	if err != nil {
 		log.Println("[Restoran][Usecase][GetDetailRestoran] Error : ", err)
-		return allResto, err
+		return resto, err
 	}
-	allResto.Attachment, err = u.attachmentRepo.GetAttachment(allResto.AttachmentID)
+	resto.Attachment, err = u.attachmentRepo.GetAttachment(resto.AttachmentID)
 	if err != nil {
 		log.Println("[Restoran][Usecase][GetAttachment] Error : ", err)
-		return allResto, err
+		return resto, err
 	}
 
-	allResto.ListCulinary, err = u.kulinerUsecase.GetAllCulinary(allResto.RestoID)
+	resto.ListCulinary, err = u.kulinerUsecase.GetAllCulinary(resto.RestoID)
 	if err != nil {
 		log.Println("[Restoran][Usecase][GetAllKuliner] Error : ", err)
-		return allResto, err
+		return resto, err
 	}
 
-	return allResto, err
+	return resto, err
 }
 
 func (u *resto) CreateResto(name string, location string, contact string, attachmentID int64) error {

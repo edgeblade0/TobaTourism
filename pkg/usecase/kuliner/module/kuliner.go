@@ -127,11 +127,11 @@ func (k *kuliner) UpdateKuliner(restoID string, kulinerID string, kulinerName st
 	}
 	culinary.Name = kulinerName
 
-	if kulinerDesc == "" {
-		err = fmt.Errorf("[Usecase][Kuliner][KulinerDesc Update] no desc")
-		log.Println(err)
-		return err
-	}
+	// if kulinerDesc == "" {
+	// 	err = fmt.Errorf("[Usecase][Kuliner][KulinerDesc Update] no desc")
+	// 	log.Println(err)
+	// 	return err
+	// }
 	culinary.Desc = kulinerDesc
 
 	price, err := strconv.ParseInt(kulinerPrice, 10, 64)
