@@ -11,30 +11,25 @@ import (
 
 	"github.com/TobaTourism/middleware"
 	"github.com/TobaTourism/pkg/common/config"
-	pariwisataDeliver "github.com/TobaTourism/pkg/delivery/pariwisata/http"
-	"github.com/TobaTourism/pkg/models"
-	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
-	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
-
-	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
-	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
-	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
-
-	restoDeliver "github.com/TobaTourism/pkg/delivery/resto/http"
-	restoRepo "github.com/TobaTourism/pkg/repository/resto/postgres"
-	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
-
 	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
+	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
+	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
+	pariwisataDeliver "github.com/TobaTourism/pkg/delivery/pariwisata/http"
+	restoDeliver "github.com/TobaTourism/pkg/delivery/resto/http"
 	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
+	"github.com/TobaTourism/pkg/models"
 	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
-
+	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
+	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
+	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
+	restoRepo "github.com/TobaTourism/pkg/repository/resto/postgres"
 	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
-	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
-
-	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
-	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
+	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
 	kulinerUseCase "github.com/TobaTourism/pkg/usecase/kuliner/module"
+	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
+	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
+	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
 )
 
 var Conf *models.Config
@@ -45,6 +40,7 @@ func main() {
 	e := echo.New()
 	middL := middleware.InitMiddleware()
 	e.Use(middL.CORS)
+	// e.Use(middL.JwtAuthentication)
 
 	//DB
 	// db := conn.InitDB(Conf.Db.Conn)

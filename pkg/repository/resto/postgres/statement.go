@@ -28,7 +28,7 @@ const (
 
 	QuerySelectRestoran = `
 		SELECT resto_id,resto_kontak,resto_lokasi,resto_name,attachment_id
-		FROM restoran
+		FROM restoran ORDER BY resto_name ASC
 	`
 
 	QueryUpdateImageRestoran = `

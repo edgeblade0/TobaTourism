@@ -17,7 +17,7 @@ func (d *kuliner) CreateKuliner(c echo.Context) error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	restoID := c.Param("restorantId")
+	restoID := c.Param("restoranId")
 	name := c.FormValue("culinaryName")
 	desc := c.FormValue("culinaryDescription")
 	price := c.FormValue("culinaryPrice")
