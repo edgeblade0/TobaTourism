@@ -32,6 +32,8 @@ func (d *resto) GetAllRestoWithKuliner(c echo.Context) error {
 }
 
 func (d *resto) GetAllResto(c echo.Context) error {
+	// user := c.Request().Context().Value("user").(uint) //Grab the id of the user that send the request
+	// log.Println(user)
 	var resp models.Responses
 	resp.Status = models.StatusFailed
 	ctx := c.Request().Context()
@@ -119,16 +121,16 @@ func (d *resto) UpdateImageResto(c echo.Context) error {
 		ctx = context.Background()
 	}
 
-	restoID := c.Param("restauranID")
+	restoID := c.Param("restaurantID")
 
 	//multipart
 	form, err := c.MultipartForm()
 	if err != nil {
-		log.Println("[Delivery][Restoran][MultipartForm for update] Error : ", err)
+		log.Println("[Delivery][Restoran][MultipartForm update image] Error : ", err)
 		c.Response().Header().Set(`X-Cursor`, "header")
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
-	files := form.File["image"]
+	files := form.File["restaurantImage"]
 	attachmentID, err := d.attachmentUsecase.InsertAttachment(files, models.PathFileRestoran, models.RestoranTypeAttachment)
 	if err != nil {
 		log.Println("[Delivery][Restoran][InsertAttachment for Update] Error : ", err)

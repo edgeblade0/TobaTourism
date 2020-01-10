@@ -76,6 +76,13 @@ func (u *resto) GetDetailResto(restoID int64) (models.Restoran, error) {
 		return resto, err
 	}
 
+	// if len(resto.ListCulinary) == 0 {
+	// 	resto.ListCulinary = new []models.Culinary
+	// 	resto.ListCulinary[0].CulinaryID = 0
+	// }
+
+	// log.Println(resto.ListCulinary)
+
 	return resto, err
 }
 

@@ -10,7 +10,7 @@ type Restoran struct {
 	Name         string     `json:"restaurantName,omitempty"`
 	Contact      string     `json:"restaurantContact,omitempty"`
 	Location     string     `json:"restaurantLocation,omitempty"`
-	ListCulinary []Culinary `json:"culinaryList,omitempty"`
+	ListCulinary []Culinary `json:"culinaryList"`
 	AttachmentID int64      `json:"attachmentID,omitempty"`
 	Attachment   []string   `json:"restaurantImage,omitempty"`
 }
