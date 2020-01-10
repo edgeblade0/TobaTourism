@@ -14,9 +14,10 @@ const (
 	StatusFailed = "500"
 )
 
-func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
+func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, []int64, error) {
 	allPariwisata := []models.Pariwisata{}
 	var resp models.PariwisataResponse
+	var attachmentID []int64
 
 	statement, err := r.DB.Prepare(QueryGetAllPariwisata)
 	if err != nil {
@@ -26,7 +27,7 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
 		resp.Message = MessageFailed
 		resp.Status = StatusFailed
 
-		return resp, err
+		return resp, attachmentID, err
 	}
 
 	defer statement.Close()
@@ -39,7 +40,7 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
 		resp.Message = MessageFailed
 		resp.Status = StatusFailed
 
-		return resp, err
+		return resp, attachmentID, err
 	}
 
 	for rows.Next() {
@@ -52,7 +53,7 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
 			resp.Message = MessageFailed
 			resp.Status = StatusFailed
 
-			return resp, err
+			return resp, attachmentID, err
 		}
 
 		allPariwisata = append(allPariwisata, pariwisata)
@@ -62,7 +63,7 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
 	resp.Message = MessageSuccess
 	resp.Status = StatusOK
 
-	return resp, nil
+	return resp, attachmentID, nil
 }
 
 func (r *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataResponse, error) {
@@ -114,9 +115,8 @@ func (r *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataRes
 	return resp, nil
 }
 
-func (r *pariwisata) CreatePariwisata(nama, lokasi, description, contact string) (models.PariwisataResponse, error) {
+func (r *pariwisata) CreatePariwisata(nama, lokasi, description, contact string, attachmentID int64) (models.PariwisataResponse, error) {
 	var resp models.PariwisataResponse
-	log.Println(nama)
 	statement, err := r.DB.Prepare(QueryCreatePariwisata)
 	if err != nil {
 		log.Println("[Repository][Pariwisata][CreatePariwisata] Prepare error: ", err)
@@ -129,7 +129,7 @@ func (r *pariwisata) CreatePariwisata(nama, lokasi, description, contact string)
 
 	defer statement.Close()
 
-	_, err = statement.Exec(nama, lokasi, description, contact)
+	_, err = statement.Exec(nama, lokasi, description, contact, attachmentID)
 	if err != nil {
 		log.Println("[Repository][Pariwisata][CreatePariwisata] Exec error: ", err)
 
@@ -203,4 +203,21 @@ func (r *pariwisata) DeletePariwisata(pariwisataID int64) (models.PariwisataResp
 	resp.Status = StatusOK
 
 	return resp, nil
+}
+
+func (r *pariwisata) UpdateImagePariwisata(pariwisata models.Pariwisata) error{
+	statement, err := r.DB.Prepare(QueryUpdateImagePariwisata)
+	if err != nil{
+		log.Println("[Repository][Pariwisata][Prepare Update] Error :", err)
+		return err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(pariwisata.AttachmentID, pariwisata.ID)
+	if err != nil{
+		log.Println("[Repository][Pariwisata][Execute Prepare] Error : ", err)
+		return err
+	}
+
+	return err
 }

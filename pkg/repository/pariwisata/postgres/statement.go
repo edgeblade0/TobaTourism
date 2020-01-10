@@ -2,7 +2,7 @@ package postgres
 
 const (
 	QueryGetAllPariwisata = `
-		SELECT pariwisata_id, pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact
+		SELECT pariwisata_id, pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact, attachment_id
 		FROM pariwisata
 	`
 
@@ -13,8 +13,8 @@ const (
 	`
 
 	QueryCreatePariwisata = `
-		INSERT INTO pariwisata(pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact)
-		VALUES ($1, $2, $3, $4)
+		INSERT INTO pariwisata(pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact, attachment_id)
+		VALUES ($1, $2, $3, $4, $5)
 		RETURNING pariwisata_id
 	`
 
@@ -27,5 +27,10 @@ const (
 	QueryDeletePariwisata = `
 		DELETE FROM pariwisata
 		WHERE pariwisata_id=$1
+	`
+	QueryUpdateImagePariwisata = `
+		UPDATE pariwisata
+		SET attachment_id = $1
+		WHERE pariwisata_id = $2
 	`
 )

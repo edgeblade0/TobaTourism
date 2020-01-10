@@ -1,17 +1,17 @@
 package models
 
-// type Pariwisata struct {
-// 	ID      int64  `json:"id"`
-// 	Title   string `json:"title" validate:"required"`
-// 	Content string `json:"content" validate:"required"`
-// }
+const (
+	PathFilePariwisata = "file/pariwisata/"
+)
 
 type Pariwisata struct {
-	ID          int64  `json:"id"`
-	Nama        string `json:"name"`
-	Lokasi      string `json:"lokasi"`
-	Description string `json:"desc"`
-	Contact     string `json:"contact"`
+	ID          int64  `json:"id,omitempty"`
+	Nama        string `json:"name,omitempty"`
+	Lokasi      string `json:"lokasi,omitempty"`
+	Description string `json:"desc,omitempty"`
+	Contact     string `json:"contact,omitempty"`
+	AttachmentID int64      `json:"attachmentID,omitempty"`
+	Attachment   []string   `json:"pariwisataImage,omitempty"`
 }
 
 type PariwisataResponse struct {
