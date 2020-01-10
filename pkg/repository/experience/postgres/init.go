@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 
-	experienceRepo "github.com/TobaTourism/pkg/repository/experience"
+	experienceRepo "github.com/if416021/TobaTourism/pkg/repository/experience"
 )
 
 type experience struct {

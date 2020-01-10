@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/labstack/echo"
 
-	attachmentUsecase "github.com/TobaTourism/pkg/usecase/attachment"
+	attachmentUsecase "github.com/if416021/TobaTourism/pkg/usecase/attachment"
 )
 
 type attachment struct {

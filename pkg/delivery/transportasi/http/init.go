@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/labstack/echo"
 
-	transportasiUsecase "github.com/TobaTourism/pkg/usecase/transportasi"
+	transportasiUsecase "github.com/if416021/TobaTourism/pkg/usecase/transportasi"
 )
 
 type transportasi struct {

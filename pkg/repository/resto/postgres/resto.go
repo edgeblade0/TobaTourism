@@ -3,7 +3,7 @@ package postgres
 import (
 	"log"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 // func (r *resto) GetAllRestoWithKuliner() ([]models.Restoran, []int64, error) {

@@ -3,7 +3,7 @@ package module
 import (
 	"log"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (u *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {

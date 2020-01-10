@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 
-	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner"
+	kulinerRepo "github.com/if416021/TobaTourism/pkg/repository/kuliner"
 )
 
 type kuliner struct {

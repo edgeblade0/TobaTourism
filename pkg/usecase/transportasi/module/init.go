@@ -1,8 +1,8 @@
 package module
 
 import (
-	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi"
-	transportasiUsecase "github.com/TobaTourism/pkg/usecase/transportasi"
+	transportasiRepo "github.com/if416021/TobaTourism/pkg/repository/transportasi"
+	transportasiUsecase "github.com/if416021/TobaTourism/pkg/usecase/transportasi"
 )
 
 type transportasi struct {

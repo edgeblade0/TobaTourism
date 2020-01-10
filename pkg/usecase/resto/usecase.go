@@ -1,6 +1,6 @@
 package resto
 
-import "github.com/TobaTourism/pkg/models"
+import "github.com/if416021/TobaTourism/pkg/models"
 
 type Usecase interface {
 	GetAllRestoWithKuliner() ([]models.Restoran, error)

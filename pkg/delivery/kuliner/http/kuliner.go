@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (d *kuliner) CreateKuliner(c echo.Context) error {

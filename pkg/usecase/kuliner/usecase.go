@@ -1,6 +1,6 @@
 package kuliner
 
-import "github.com/TobaTourism/pkg/models"
+import "github.com/if416021/TobaTourism/pkg/models"
 
 type Usecase interface {
 	CreateKuliner(restoID string, name string, desc string, price string, attachmentID int64) error

@@ -1,11 +1,11 @@
 package module
 
 import (
-	restoRepo "github.com/TobaTourism/pkg/repository/resto"
-	restoUsecase "github.com/TobaTourism/pkg/usecase/resto"
-	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment"
-	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner"
-	kulinerUsecase "github.com/TobaTourism/pkg/usecase/kuliner"
+	restoRepo "github.com/if416021/TobaTourism/pkg/repository/resto"
+	restoUsecase "github.com/if416021/TobaTourism/pkg/usecase/resto"
+	attachmentRepo "github.com/if416021/TobaTourism/pkg/repository/attachment"
+	kulinerRepo "github.com/if416021/TobaTourism/pkg/repository/kuliner"
+	kulinerUsecase "github.com/if416021/TobaTourism/pkg/usecase/kuliner"
 )
 
 type resto struct {

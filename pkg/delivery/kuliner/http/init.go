@@ -3,8 +3,8 @@ package http
 import (
 	"github.com/labstack/echo"
 
-	attachmentUsecase "github.com/TobaTourism/pkg/usecase/attachment"
-	kulinerUsecase "github.com/TobaTourism/pkg/usecase/kuliner"
+	attachmentUsecase "github.com/if416021/TobaTourism/pkg/usecase/attachment"
+	kulinerUsecase "github.com/if416021/TobaTourism/pkg/usecase/kuliner"
 )
 
 type kuliner struct {

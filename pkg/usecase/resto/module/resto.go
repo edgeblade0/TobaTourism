@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (u *resto) GetAllRestoWithKuliner() ([]models.Restoran, error) {

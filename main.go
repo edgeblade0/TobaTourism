@@ -9,32 +9,32 @@ import (
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
 
-	"github.com/TobaTourism/middleware"
-	"github.com/TobaTourism/pkg/common/config"
-	pariwisataDeliver "github.com/TobaTourism/pkg/delivery/pariwisata/http"
-	"github.com/TobaTourism/pkg/models"
-	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
-	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
+	"github.com/if416021/TobaTourism/middleware"
+	"github.com/if416021/TobaTourism/pkg/common/config"
+	pariwisataDeliver "github.com/if416021/TobaTourism/pkg/delivery/pariwisata/http"
+	"github.com/if416021/TobaTourism/pkg/models"
+	pariwisataRepo "github.com/if416021/TobaTourism/pkg/repository/pariwisata/postgres"
+	pariwisataUseCase "github.com/if416021/TobaTourism/pkg/usecase/pariwisata/module"
 
-	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
-	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
-	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
+	experienceDeliver "github.com/if416021/TobaTourism/pkg/delivery/experience/http"
+	experienceRepo "github.com/if416021/TobaTourism/pkg/repository/experience/postgres"
+	experienceUseCase "github.com/if416021/TobaTourism/pkg/usecase/experience/module"
 
-	restoDeliver "github.com/TobaTourism/pkg/delivery/resto/http"
-	restoRepo "github.com/TobaTourism/pkg/repository/resto/postgres"
-	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
+	restoDeliver "github.com/if416021/TobaTourism/pkg/delivery/resto/http"
+	restoRepo "github.com/if416021/TobaTourism/pkg/repository/resto/postgres"
+	restoUseCase "github.com/if416021/TobaTourism/pkg/usecase/resto/module"
 
-	attachmentDeliver "github.com/TobaTourism/pkg/delivery/attachment/http"
-	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
-	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment/postgres"
+	attachmentDeliver "github.com/if416021/TobaTourism/pkg/delivery/attachment/http"
+	transportasiDeliver "github.com/if416021/TobaTourism/pkg/delivery/transportasi/http"
+	attachmentRepo "github.com/if416021/TobaTourism/pkg/repository/attachment/postgres"
 
-	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
-	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
-	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
+	transportasiRepo "github.com/if416021/TobaTourism/pkg/repository/transportasi/postgres"
+	attachmentUseCase "github.com/if416021/TobaTourism/pkg/usecase/attachment/module"
+	transportasiUseCase "github.com/if416021/TobaTourism/pkg/usecase/transportasi/module"
 
-	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
-	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
-	kulinerUseCase "github.com/TobaTourism/pkg/usecase/kuliner/module"
+	kulinerDeliver "github.com/if416021/TobaTourism/pkg/delivery/kuliner/http"
+	kulinerRepo "github.com/if416021/TobaTourism/pkg/repository/kuliner/postgres"
+	kulinerUseCase "github.com/if416021/TobaTourism/pkg/usecase/kuliner/module"
 )
 
 var Conf *models.Config

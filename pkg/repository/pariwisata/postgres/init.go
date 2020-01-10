@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 
-	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata"
+	pariwisataRepo "github.com/if416021/TobaTourism/pkg/repository/pariwisata"
 )
 
 type pariwisata struct {

@@ -8,7 +8,7 @@ import (
 	"mime/multipart"
 	"os"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (u *attachment) InsertAttachment(files []*multipart.FileHeader, FilePath string, Type int) (int64, error) {

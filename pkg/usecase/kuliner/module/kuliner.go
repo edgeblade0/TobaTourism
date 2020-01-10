@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (u *kuliner) GetAllCulinary(restoID int64) ([]models.Culinary, error) {

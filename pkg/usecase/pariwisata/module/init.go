@@ -1,8 +1,8 @@
 package module
 
 import (
-	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata"
-	pariwisataUsecase "github.com/TobaTourism/pkg/usecase/pariwisata"
+	pariwisataRepo "github.com/if416021/TobaTourism/pkg/repository/pariwisata"
+	pariwisataUsecase "github.com/if416021/TobaTourism/pkg/usecase/pariwisata"
 )
 
 type pariwisata struct {

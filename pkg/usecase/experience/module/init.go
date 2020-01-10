@@ -1,8 +1,8 @@
 package module
 
 import (
-	experienceRepo "github.com/TobaTourism/pkg/repository/experience"
-	experienceUsecase "github.com/TobaTourism/pkg/usecase/experience"
+	experienceRepo "github.com/if416021/TobaTourism/pkg/repository/experience"
+	experienceUsecase "github.com/if416021/TobaTourism/pkg/usecase/experience"
 )
 
 type experience struct {

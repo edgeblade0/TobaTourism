@@ -3,7 +3,7 @@ package postgres
 import (
 	"database/sql"
 
-	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment"
+	attachmentRepo "github.com/if416021/TobaTourism/pkg/repository/attachment"
 )
 
 type attachment struct {

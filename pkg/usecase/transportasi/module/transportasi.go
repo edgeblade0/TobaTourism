@@ -3,7 +3,7 @@ package module
 import (
 	"log"
 
-	"github.com/TobaTourism/pkg/models"
+	"github.com/if416021/TobaTourism/pkg/models"
 )
 
 func (u *transportasi) GetAllTransportasi() (models.TransportasiResponse, error) {
@@ -39,6 +39,16 @@ func (u *transportasi) CreateTransportasi(nama, rute, description, contact strin
 	return transportasi, nil
 }
 
+// func (u *transportasi) UpdateImageTransportasi(transportasiID int64) error{
+// 	var transportasi models.Transportasi
+
+// 	transportasiIDInt, err := strconv.ParseInt(transportasiID, 10)
+// 	if err !=nil {
+// 		log.Println("[Usecase][Restoran][Parse TransportasiID on update] Error: ", err)
+// 		return err
+// 	}
+// 	trans
+// }
 func (u *transportasi) UpdateTransportasi(transportasiID int64, nama, rute, description, contact string, harga int64) (models.TransportasiResponse, error) {
 	transportasi, err := u.transportasiRepo.UpdateTransportasi(transportasiID, nama, rute, description, contact, harga)
 	if err != nil {

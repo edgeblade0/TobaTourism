@@ -3,8 +3,8 @@ package http
 import (
 	"github.com/labstack/echo"
 
-	attachmentUsecase "github.com/TobaTourism/pkg/usecase/attachment"
-	restoUsecase "github.com/TobaTourism/pkg/usecase/resto"
+	attachmentUsecase "github.com/if416021/TobaTourism/pkg/usecase/attachment"
+	restoUsecase "github.com/if416021/TobaTourism/pkg/usecase/resto"
 )
 
 type resto struct {

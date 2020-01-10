@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/labstack/echo"
 
-	experienceUsecase "github.com/TobaTourism/pkg/usecase/experience"
+	experienceUsecase "github.com/if416021/TobaTourism/pkg/usecase/experience"
 )
 
 type experience struct {
