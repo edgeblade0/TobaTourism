@@ -19,17 +19,17 @@ func InitPariwisataHandler(e *echo.Echo, p pariwisataUsecase.Usecase, a attachme
 	}
 
 	//Handle GET
-	e.GET("api/pariwisata/getAll", handler.GetAllPariwisata)
-	e.GET("api/pariwisata/:pariwisata_id", handler.GetPariwisataByID)
+	e.GET("api/tourism", handler.GetAllPariwisata)
+	e.GET("api/tourism/:tourismId", handler.GetPariwisataByID)
 
 	// Handle POST
-	e.POST("api/pariwisata/create", handler.CreatePariwisata)
+	e.POST("api/tourism", handler.CreatePariwisata)
 
 	// Handle PUT
-	e.PUT("api/pariwisata/update/:pariwisata_id", handler.UpdatePariwisata)
-	e.PUT("/api/pariwisata/image/:pariwisata_id", handler.UpdateImagePariwisata)
+	e.PUT("api/tourism/:tourismId", handler.UpdatePariwisata)
+	e.PUT("/api/tourism/image/:tourismId", handler.UpdateImagePariwisata) //not clear
 
 	// Handle DELETE
-	e.DELETE("api/pariwisata/delete/:pariwisata_id", handler.DeletePariwisata)
+	e.DELETE("api/tourism/:tourismId", handler.DeletePariwisata)
 
 }

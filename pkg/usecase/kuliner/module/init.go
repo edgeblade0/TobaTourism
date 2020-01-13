@@ -1,10 +1,9 @@
 package module
 
 import (
+	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment"
 	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner"
 	kulinerUsecase "github.com/TobaTourism/pkg/usecase/kuliner"
-
-	attachmentRepo "github.com/TobaTourism/pkg/repository/attachment"
 )
 
 type kuliner struct {

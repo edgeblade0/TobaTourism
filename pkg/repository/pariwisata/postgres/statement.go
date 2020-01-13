@@ -3,11 +3,11 @@ package postgres
 const (
 	QueryGetAllPariwisata = `
 		SELECT pariwisata_id, pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact, attachment_id
-		FROM pariwisata
+		FROM pariwisata ORDER BY pariwisata_nama ASC
 	`
 
 	QueryGetPariwisataByID = `
-		SELECT pariwisata_id, pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact
+		SELECT pariwisata_id, pariwisata_nama, pariwisata_lokasi, pariwisata_desc, pariwisata_contact, attachment_id
 		FROM pariwisata
 		WHERE pariwisata_id = $1
 	`

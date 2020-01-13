@@ -45,7 +45,8 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, []int64, err
 
 	for rows.Next() {
 		pariwisata := models.Pariwisata{}
-		err := rows.Scan(&pariwisata.ID, &pariwisata.Nama, &pariwisata.Lokasi, &pariwisata.Description, &pariwisata.Contact)
+		var attachID int64
+		err := rows.Scan(&pariwisata.ID, &pariwisata.Nama, &pariwisata.Lokasi, &pariwisata.Description, &pariwisata.Contact, &attachID)
 		if err != nil {
 			log.Println("[Repository][Pariwisata][GetAllPariwisata] Scan error: ", err)
 
@@ -57,6 +58,7 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, []int64, err
 		}
 
 		allPariwisata = append(allPariwisata, pariwisata)
+		attachmentID = append(attachmentID, attachID)
 	}
 
 	resp.Data = allPariwisata
@@ -66,9 +68,10 @@ func (r *pariwisata) GetAllPariwisata() (models.PariwisataResponse, []int64, err
 	return resp, attachmentID, nil
 }
 
-func (r *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataResponse, error) {
-	pariwisatas := []models.Pariwisata{}
-	var resp models.PariwisataResponse
+func (r *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataResponseByID, error) {
+	pariwisatas := models.Pariwisata{}
+	var resp models.PariwisataResponseByID
+	// var attachmentID []int64
 
 	statement, err := r.DB.Prepare(QueryGetPariwisataByID)
 	if err != nil {
@@ -94,18 +97,21 @@ func (r *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataRes
 
 	for rows.Next() {
 		pariwisata := models.Pariwisata{}
-		err = rows.Scan(&pariwisata.ID, &pariwisata.Nama, &pariwisata.Lokasi, &pariwisata.Description, &pariwisata.Contact)
+		var attachID int64
+		err = rows.Scan(&pariwisata.ID, &pariwisata.Nama, &pariwisata.Lokasi, &pariwisata.Description, &pariwisata.Contact, &attachID)
 		if err != nil {
 			log.Println("[Repository][Pariwisata][GetPariwisataByID] Scan error: ", err)
 
-			resp.Data = pariwisatas
+			resp.Data = pariwisata
 			resp.Message = MessageFailed
 			resp.Status = StatusFailed
 
 			return resp, err
 		}
 
-		pariwisatas = append(pariwisatas, pariwisata)
+		pariwisatas = pariwisata
+		// attachmentID = append(attachmentID, attachID)
+		pariwisatas.AttachmentID = attachID
 	}
 
 	resp.Data = pariwisatas
@@ -205,16 +211,16 @@ func (r *pariwisata) DeletePariwisata(pariwisataID int64) (models.PariwisataResp
 	return resp, nil
 }
 
-func (r *pariwisata) UpdateImagePariwisata(pariwisata models.Pariwisata) error{
+func (r *pariwisata) UpdateImagePariwisata(pariwisata models.Pariwisata) error {
 	statement, err := r.DB.Prepare(QueryUpdateImagePariwisata)
-	if err != nil{
+	if err != nil {
 		log.Println("[Repository][Pariwisata][Prepare Update] Error :", err)
 		return err
 	}
 	defer statement.Close()
 
 	_, err = statement.Exec(pariwisata.AttachmentID, pariwisata.ID)
-	if err != nil{
+	if err != nil {
 		log.Println("[Repository][Pariwisata][Execute Prepare] Error : ", err)
 		return err
 	}

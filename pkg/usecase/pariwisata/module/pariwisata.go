@@ -1,9 +1,9 @@
 package module
 
 import (
+	"fmt"
 	"log"
 	"strconv"
-	"fmt"
 
 	"github.com/TobaTourism/pkg/models"
 )
@@ -26,11 +26,17 @@ func (u *pariwisata) GetAllPariwisata() (models.PariwisataResponse, error) {
 	return allPariwisata, nil
 }
 
-func (u *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataResponse, error) {
+func (u *pariwisata) GetPariwisataByID(pariwisataID int64) (models.PariwisataResponseByID, error) {
 	pariwisata, err := u.pariwisataRepo.GetPariwisataByID(pariwisataID)
 	if err != nil {
 		log.Println("[Usecase][Pariwisata][GetPariwisataByID] Error: ", err)
 
+		return pariwisata, err
+	}
+
+	pariwisata.Data.Attachment, err = u.attachmentRepo.GetAttachment(pariwisata.Data.AttachmentID)
+	if err != nil {
+		log.Println("[Kuliner][Usecase][GetAttachment] Error : ", err)
 		return pariwisata, err
 	}
 
@@ -70,34 +76,30 @@ func (u *pariwisata) DeletePariwisata(pariwisataID int64) (models.PariwisataResp
 	return pariwisata, nil
 }
 
-
-func (k *pariwisata) UpdateImagePariwisata(pariwisataID string, attachmentID int64) error{
+func (k *pariwisata) UpdateImagePariwisata(pariwisataID string, attachmentID int64) error {
 	var pariwisata models.Pariwisata
-	
+
 	pariwisataIDInt, err := strconv.ParseInt(pariwisataID, 10, 64)
 	if err != nil {
 		log.Println("[Usecase][Pariwisata][Parse pariwisatID on update Pariwisata] Error: ", err)
-		return  err
+		return err
 	}
 
 	pariwisata.ID = pariwisataIDInt
-	
 
 	if attachmentID == 0 {
 		err = fmt.Errorf("[Usecase][Pariwisata][AttachmentID on update] no AttachmentID ")
 
 		log.Println(err)
-		return  err 
+		return err
 	}
 	pariwisata.AttachmentID = attachmentID
 
 	err = k.pariwisataRepo.UpdateImagePariwisata(pariwisata)
 	if err != nil {
 		log.Println("[Usecase][Pariwisata][UpdatePariwisata]", err)
-		
-		return   err
+
+		return err
 	}
-	return  err
+	return err
 }
-
-
