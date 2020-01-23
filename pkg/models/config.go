@@ -8,7 +8,8 @@ const (
 )
 
 type DatabaseConfig struct {
-	Conn string
+	Conn     string
+	ConnAuth string
 }
 
 type Config struct {
