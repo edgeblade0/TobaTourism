@@ -1,7 +1,7 @@
 package main
 
 import (
-	"database/sql"
+	sql "database/sql"
 	"fmt"
 	"log"
 
@@ -15,6 +15,7 @@ import (
 	experienceDeliver "github.com/TobaTourism/pkg/delivery/experience/http"
 	kulinerDeliver "github.com/TobaTourism/pkg/delivery/kuliner/http"
 	pariwisataDeliver "github.com/TobaTourism/pkg/delivery/pariwisata/http"
+	profileDeliver "github.com/TobaTourism/pkg/delivery/profile/http"
 	restoDeliver "github.com/TobaTourism/pkg/delivery/resto/http"
 	transportasiDeliver "github.com/TobaTourism/pkg/delivery/transportasi/http"
 	"github.com/TobaTourism/pkg/models"
@@ -22,12 +23,14 @@ import (
 	experienceRepo "github.com/TobaTourism/pkg/repository/experience/postgres"
 	kulinerRepo "github.com/TobaTourism/pkg/repository/kuliner/postgres"
 	pariwisataRepo "github.com/TobaTourism/pkg/repository/pariwisata/postgres"
+	profileRepo "github.com/TobaTourism/pkg/repository/profile/postgres"
 	restoRepo "github.com/TobaTourism/pkg/repository/resto/postgres"
 	transportasiRepo "github.com/TobaTourism/pkg/repository/transportasi/postgres"
 	attachmentUseCase "github.com/TobaTourism/pkg/usecase/attachment/module"
 	experienceUseCase "github.com/TobaTourism/pkg/usecase/experience/module"
 	kulinerUseCase "github.com/TobaTourism/pkg/usecase/kuliner/module"
 	pariwisataUseCase "github.com/TobaTourism/pkg/usecase/pariwisata/module"
+	profileUseCase "github.com/TobaTourism/pkg/usecase/profile/module"
 	restoUseCase "github.com/TobaTourism/pkg/usecase/resto/module"
 	transportasiUseCase "github.com/TobaTourism/pkg/usecase/transportasi/module"
 )
@@ -45,6 +48,7 @@ func main() {
 	//DB
 	// db := conn.InitDB(Conf.Db.Conn)
 	db, err := sql.Open("postgres", Conf.Db.Conn)
+	dbAuth, err := sql.Open("postgres", Conf.Db.ConnAuth)
 	if err != nil {
 		panic(err)
 	}
@@ -64,6 +68,7 @@ func main() {
 	attachment(e, db)
 	kuliner(e, db)
 	pariwisata(e, db)
+	profile(e, dbAuth)
 
 	log.Fatal(e.Start(":9090"))
 }
@@ -106,10 +111,16 @@ func kuliner(e *echo.Echo, db *sql.DB) {
 	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
 }
 
-func pariwisata(e *echo.Echo, db *sql.DB){
+func pariwisata(e *echo.Echo, db *sql.DB) {
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
 	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
-	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo,attachmentRepo)
-	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase,attachmentUseCase )
+	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo, attachmentRepo)
+	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase, attachmentUseCase)
+}
+
+func profile(e *echo.Echo, db *sql.DB) {
+	profileRepo := profileRepo.InitProfileRepo(db)
+	profileUsecase := profileUseCase.InitProfileUsecase(profileRepo)
+	profileDeliver.InitProfileHandler(e, profileUsecase)
 }
