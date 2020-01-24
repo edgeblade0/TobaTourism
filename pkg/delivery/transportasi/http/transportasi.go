@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/TobaTourism/pkg/models"
 	"github.com/labstack/echo"
+
+	"github.com/TobaTourism/pkg/models"
 )
 
 func (d *transportasi) GetAllTransportasi(c echo.Context) error {

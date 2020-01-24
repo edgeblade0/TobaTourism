@@ -131,6 +131,7 @@ func (d *resto) UpdateImageResto(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 	files := form.File["restaurantImage"]
+	log.Println("Files ", files)
 	attachmentID, err := d.attachmentUsecase.InsertAttachment(files, models.PathFileRestoran, models.RestoranTypeAttachment)
 	if err != nil {
 		log.Println("[Delivery][Restoran][InsertAttachment for Update] Error : ", err)
