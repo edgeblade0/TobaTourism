@@ -79,9 +79,12 @@ func startService(e *echo.Echo, db *sql.DB) {
 	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
 	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
 
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
 	transportasiRepo := transportasiRepo.InitTransportasiRepo(db)
-	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo)
-	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase)
+	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo, attachmentRepo)
+	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase, attachmentUseCase)
 }
 
 func restoran(e *echo.Echo, db *sql.DB) {

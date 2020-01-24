@@ -3,9 +3,10 @@ package models
 const (
 	HomeAttachment = "localhost:9090/file?path="
 
-	RestoranTypeAttachment   = 1
-	KulinerTypeAttachment    = 2
-	PariwisataTypeAttachment = 3
+	RestoranTypeAttachment     = 1
+	KulinerTypeAttachment      = 2
+	PariwisataTypeAttachment   = 3
+	TransportasiTypeAttachment = 3
 )
 
 type Attachment struct {

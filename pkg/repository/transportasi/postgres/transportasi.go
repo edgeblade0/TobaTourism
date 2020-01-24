@@ -14,9 +14,10 @@ const (
 	StatusFailed = "500"
 )
 
-func (r *transportasi) GetAllTransportasi() (models.TransportasiResponse, error) {
+func (r *transportasi) GetAllTransportasi() (models.TransportasiResponse, []int64, error) {
 	allTransportasi := []models.Transportasi{}
 	var resp models.TransportasiResponse
+	var attachmentID []int64
 
 	statement, err := r.DB.Prepare(QueryGetAllTransportasi)
 	if err != nil {
@@ -26,7 +27,7 @@ func (r *transportasi) GetAllTransportasi() (models.TransportasiResponse, error)
 		resp.Message = MessageFailed
 		resp.Status = StatusFailed
 
-		return resp, err
+		return resp, attachmentID, err
 	}
 
 	defer statement.Close()
@@ -39,12 +40,13 @@ func (r *transportasi) GetAllTransportasi() (models.TransportasiResponse, error)
 		resp.Message = MessageFailed
 		resp.Status = StatusFailed
 
-		return resp, err
+		return resp, attachmentID, err
 	}
 
 	for rows.Next() {
+		var attachID int64
 		transportasi := models.Transportasi{}
-		err := rows.Scan(&transportasi.ID, &transportasi.Nama, &transportasi.Rute, &transportasi.Description, &transportasi.Contact, &transportasi.Harga)
+		err := rows.Scan(&transportasi.ID, &transportasi.Nama, &transportasi.Rute, &transportasi.Description, &transportasi.Contact, &transportasi.Harga, &attachID)
 		if err != nil {
 			log.Println("[Repository][Transportasi][GetAllTransportasi] Scan error: ", err)
 
@@ -52,22 +54,23 @@ func (r *transportasi) GetAllTransportasi() (models.TransportasiResponse, error)
 			resp.Message = MessageFailed
 			resp.Status = StatusFailed
 
-			return resp, err
+			return resp, attachmentID, err
 		}
 
 		allTransportasi = append(allTransportasi, transportasi)
+		attachmentID = append(attachmentID, attachID)
 	}
 
 	resp.Data = allTransportasi
 	resp.Message = MessageSuccess
 	resp.Status = StatusOK
 
-	return resp, nil
+	return resp, attachmentID, nil
 }
 
-func (r *transportasi) GetTransportasiByID(transportasiID int64) (models.TransportasiResponse, error) {
-	transportasis := []models.Transportasi{}
-	var resp models.TransportasiResponse
+func (r *transportasi) GetTransportasiByID(transportasiID int64) (models.TransportasiDetailResponse, error) {
+	transportasis := models.Transportasi{}
+	var resp models.TransportasiDetailResponse
 
 	statement, err := r.DB.Prepare(QueryGetTransportasiByID)
 	if err != nil {
@@ -92,8 +95,8 @@ func (r *transportasi) GetTransportasiByID(transportasiID int64) (models.Transpo
 	}
 
 	for rows.Next() {
-		transportasi := models.Transportasi{}
-		err = rows.Scan(&transportasi.ID, &transportasi.Nama, &transportasi.Rute, &transportasi.Description, &transportasi.Contact, &transportasi.Harga)
+		var transp models.Transportasi
+		err = rows.Scan(&transp.ID, &transp.Nama, &transp.Rute, &transp.Description, &transp.Contact, &transp.Harga, &transp.AttachmentID)
 		if err != nil {
 			log.Println("[Repository][Transportasi][GetTransportasiByID] Scan error: ", err)
 
@@ -104,17 +107,16 @@ func (r *transportasi) GetTransportasiByID(transportasiID int64) (models.Transpo
 			return resp, err
 		}
 
-		transportasis = append(transportasis, transportasi)
+		resp.Data = transp
 	}
 
-	resp.Data = transportasis
 	resp.Message = MessageSuccess
 	resp.Status = StatusOK
 
 	return resp, nil
 }
 
-func (r *transportasi) CreateTransportasi(nama, rute, description, contact string, harga int64) (models.TransportasiResponse, error) {
+func (r *transportasi) CreateTransportasi(nama, rute, description, contact string, harga int64, attachmentID int64) (models.TransportasiResponse, error) {
 	var resp models.TransportasiResponse
 
 	statement, err := r.DB.Prepare(QueryCreateTransportasi)
@@ -129,7 +131,7 @@ func (r *transportasi) CreateTransportasi(nama, rute, description, contact strin
 
 	defer statement.Close()
 
-	_, err = statement.Exec(nama, rute, description, contact, harga)
+	_, err = statement.Exec(nama, rute, description, contact, harga, attachmentID)
 	if err != nil {
 		log.Println("[Repository][Transportasi][CreateTransportasi] Exec error: ", err)
 
@@ -163,6 +165,37 @@ func (r *transportasi) UpdateTransportasi(transportasiID int64, nama, rute, desc
 	_, err = statement.Exec(transportasiID, nama, rute, description, contact, harga)
 	if err != nil {
 		log.Println("[Repository][Transportasi][UpdateTransportasi] Exec error: ", err)
+
+		resp.Message = MessageFailed
+		resp.Status = StatusFailed
+
+		return resp, err
+	}
+
+	resp.Message = MessageSuccess
+	resp.Status = StatusOK
+
+	return resp, nil
+}
+
+func (r *transportasi) UpdateImageTransportasi(transportasiID int64, attachmentID int64) (models.TransportasiResponse, error) {
+	var resp models.TransportasiResponse
+
+	statement, err := r.DB.Prepare(QueryUpdateImageTransportasi)
+	if err != nil {
+		log.Println("[Repository][Transportasi][UpdateImageTransportasi] Prepare error: ", err)
+
+		resp.Message = MessageFailed
+		resp.Status = StatusFailed
+
+		return resp, err
+	}
+
+	defer statement.Close()
+
+	_, err = statement.Exec(transportasiID, attachmentID)
+	if err != nil {
+		log.Println("[Repository][Transportasi][UpdateImageTransportasi] Exec error: ", err)
 
 		resp.Message = MessageFailed
 		resp.Status = StatusFailed
