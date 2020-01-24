@@ -20,7 +20,7 @@ func InitRestoHandler(e *echo.Echo, p restoUsecase.Usecase, a attachmentUsecase.
 
 	// handler
 	e.POST("/api/restaurant", handler.InsertResto)
-	e.PUT("/api/restaurant/image/:restaurantID", handler.UpdateImageResto)
+	e.POST("/api/restaurant/image/:restaurantID", handler.UpdateImageResto)
 	e.PUT("/api/restaurant/:restaurantID", handler.UpdateResto)
 	e.DELETE("/api/restaurant/:restaurantID", handler.DeleteResto)
 

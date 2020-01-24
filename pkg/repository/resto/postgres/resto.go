@@ -121,6 +121,8 @@ func (r *resto) CreateResto(resto models.Restoran) error {
 }
 
 func (r *resto) UpdateImageResto(resto models.Restoran) error {
+
+	log.Println("resto a", resto)
 	statement, err := r.DB.Prepare(QueryUpdateImageRestoran)
 	if err != nil {
 		log.Println("[Repository][Restoran][Prepare Update Image] Error : ", err)

@@ -11,7 +11,7 @@ type Transportasi struct {
 	Description  string   `json:"transportationDescription"`
 	Contact      string   `json:"transportationContact"`
 	Harga        int64    `json:"transportationPrice"`
-	Attachment   []string `json:"transportasiImage"`
+	Attachment   []string `json:"transportationImage"`
 	AttachmentID int64    `json:"attachmentId, omitempty"`
 }
 

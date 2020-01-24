@@ -19,16 +19,16 @@ func InitTransportasiHandler(e *echo.Echo, p transportasiUsecase.Usecase, a atta
 	}
 
 	// Handle GET
-	e.GET("api/transportasi/getAll", handler.GetAllTransportasi)
-	e.GET("api/transportasi/:id", handler.GetTransportasiByID)
+	e.GET("api/transportation", handler.GetAllTransportasi)
+	e.GET("api/transportation/:id", handler.GetTransportasiByID)
 
 	// Handle POST
-	e.POST("api/transportasi/create", handler.CreateTransportasi)
+	e.POST("api/transportation", handler.CreateTransportasi)
 
 	// Handle PUT
-	e.PUT("api/transportasi/:id", handler.UpdateTransportasi)
-	e.POST("api/transportasi/image/:id", handler.UpdateImageTransportasi)
+	e.PUT("api/transportation/:id", handler.UpdateTransportasi)
+	e.POST("api/transportation/image/:id", handler.UpdateImageTransportasi)
 
 	// Handle DELETE
-	e.DELETE("api/transportasi/:id", handler.DeleteTransportasi)
+	e.DELETE("api/transportation/:id", handler.DeleteTransportasi)
 }
