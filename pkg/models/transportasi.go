@@ -1,16 +1,28 @@
 package models
 
+const (
+	PathFileTransportasi = "file/transportasi/"
+)
+
 type Transportasi struct {
-	ID          int64  `json:"id"`
-	Nama        string `json:"nama"`
-	Rute        string `json:"rute"`
-	Description string `json:"description"`
-	Contact     string `json:"contact"`
-	Harga       int64  `json:"harga"`
+	ID           int64    `json:"transportationId"`
+	Nama         string   `json:"transportationName"`
+	Rute         string   `json:"transportationRoute"`
+	Description  string   `json:"transportationDescription"`
+	Contact      string   `json:"transportationContact"`
+	Harga        int64    `json:"transportationPrice"`
+	Attachment   []string `json:"transportasiImage"`
+	AttachmentID int64    `json:"attachmentId, omitempty"`
 }
 
 type TransportasiResponse struct {
-	Data    []Transportasi `json:"data"`
+	Data    []Transportasi `json:"data,omitempty"`
 	Message string         `json:"message"`
 	Status  string         `json:"status"`
+}
+
+type TransportasiDetailResponse struct {
+	Data    Transportasi `json:"data,omitempty"`
+	Message string       `json:"message"`
+	Status  string       `json:"status"`
 }

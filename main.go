@@ -74,9 +74,12 @@ func startService(e *echo.Echo, db *sql.DB) {
 	experienceUsecase := experienceUseCase.InitExperienceUsecase(experienceRepo)
 	experienceDeliver.InitExperienceHandler(e, experienceUsecase)
 
+	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
+	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
+
 	transportasiRepo := transportasiRepo.InitTransportasiRepo(db)
-	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo)
-	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase)
+	transportasiUsecase := transportasiUseCase.InitTransportasiUsecase(transportasiRepo, attachmentRepo)
+	transportasiDeliver.InitTransportasiHandler(e, transportasiUsecase, attachmentUseCase)
 }
 
 func restoran(e *echo.Echo, db *sql.DB) {
@@ -106,10 +109,10 @@ func kuliner(e *echo.Echo, db *sql.DB) {
 	kulinerDeliver.InitKulinerHandler(e, kulinerUsecase, attachmentUseCase)
 }
 
-func pariwisata(e *echo.Echo, db *sql.DB){
+func pariwisata(e *echo.Echo, db *sql.DB) {
 	attachmentRepo := attachmentRepo.InitAttachmentRepo(db)
 	attachmentUseCase := attachmentUseCase.InitAttachmentUsecase(attachmentRepo)
 	pariwisataRepo := pariwisataRepo.InitPariwisataRepo(db)
-	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo,attachmentRepo)
-	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase,attachmentUseCase )
+	pariwisataUsecase := pariwisataUseCase.InitPariwisataUsecase(pariwisataRepo, attachmentRepo)
+	pariwisataDeliver.InitPariwisataHandler(e, pariwisataUsecase, attachmentUseCase)
 }
